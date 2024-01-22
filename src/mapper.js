@@ -1,75 +1,10 @@
 import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import {CFG} from './AllRooms.js';
+import {DoorDropDown} from './components/DoorDropDown.js';
+import {RoomDropDown} from './components/RoomDropDown.js';
+import {RoomNode, findAllPaths} from './util/FindAllPaths.js';
 import _ from 'lodash';
-
-interface MapperProps {
-	str: string;
-}
-
-interface DoorDropdownProps {
-	name: string;
-	doors: string[];
-	onChange: (selectedId: string) => void;
-}
-
-interface RoomDropdownProps {
-	name: string;
-	rooms: string[];
-	onChange: (selectedId: string) => void;
-}
-
-interface DropDownProps {
-	ids: string[];
-	idToNameMap: Record<string, string>;
-	onChange: (selectedId: string) => void;
-}
-
-interface RoomNode {
-	roomName: string;
-	nextRoomNodes: RoomNode[];
-}
-
-function convertIdsToIdNamePairs(ids: string[], idToNameMap: Record<string, string>): string[2][]
-{
-	return ids.map((id: string): string => {
-		return [id, idToNameMap[id]];
-	}).sort((p1: string[2], p2: string[2]): number => {
-		return p1[1].localeCompare(p2[1]);
-	});
-}
-
-function DropDown(props: DropDownProps)
-{
-	const onChange = (e) => {
-		console.log(`Clicked ${e.target.value}`);
-		props.onChange(e.target.value);
-	};
-
-	let dropDownElems: string[2][] = convertIdsToIdNamePairs(props.ids, props.idToNameMap);
-
-	return <select onChange={onChange}> {
-		dropDownElems.map((s: string[2]): JSX.Element => {
-			return <option key={s[0]} value={s[0]}>{s[1]}</option>;
-		})
-	} </select>;
-}
-
-function DoorDropdown(props: DoorDropdownProps)
-{
-	return (<>
-		<span>{props.name}</span>
-		<DropDown ids={props.doors} idToNameMap={CFG.doors} onChange={props.onChange} />
-	</>);
-}
-
-function RoomDropdown(props: RoomDropdownProps)
-{
-	return (<>
-		<span>{props.name}</span>
-		<DropDown ids={props.rooms} idToNameMap={CFG.areas} onChange={props.onChange} />
-	</>);
-}
 
 function validateFromTo(from: string|undefined, to: string|undefined): boolean
 {
@@ -84,54 +19,7 @@ function validateFromTo(from: string|undefined, to: string|undefined): boolean
 	return true;
 }
 
-function findAllPaths(visited: Set<string>,
-                      roomToDoors: Record<string, string[]>,
-                      doorToDoor: Record<string, string>,
-                      start: string,
-                      end: string): RoomNode
-{
-	let roomNode: RoomNode|null = null;
-
-	if (visited.has(start)) {
-		return roomNode;
-	}
-
-	visited.add(start);
-
-	if (start === end) {
-		roomNode = {
-			roomName: start,
-			nextRoomNodes: []
-		};
-	} else if (roomToDoors[start] !== undefined) {
-		roomNode = {
-			roomNode: start,
-			nextRoomNodes: []
-		};
-
-		for (let fromDoorId of roomToDoors[start]) {
-			let toDoorId: string = doorToDoor[fromDoorId];
-			let idOfNextRoom: string = toDoorId.split('/')[0];
-
-			let nextRoom: RoomNode =
-			    findAllPaths(visited, roomToDoors, doorToDoor,
-			                 idOfNextRoom, end);
-
-			if (nextRoom !== null) {
-				roomNode.nextRoomNodes.push(nextRoom);
-			}
-		}
-
-		if (!roomNode.nextRoomNodes.length) {
-			roomNode = null;
-		}
-	}
-
-	visited.delete(start);
-	return roomNode;
-}
-
-export function Mapper(props: MapperProps)
+export function Mapper()
 {
 	const [roomToDoors, setRoomsToDoors] = useState({});
 	const [doorToDoor, setDoorToDoor] = useState({});
@@ -196,20 +84,20 @@ export function Mapper(props: MapperProps)
 	};
 
 	return (<>
-		<DoorDropdown name="From:"
+		<DoorDropDown name="From:"
 		              doors={_.keys(unlinkedRooms)}
 		              onChange={(doorId:string)=>{linkFromDoorId.current=doorId}}
 		/>
-		<DoorDropdown name="To:"
+		<DoorDropDown name="To:"
 		              doors={_.keys(unlinkedRooms)}
 		              onChange={(doorId:string)=>{linkToDoorId.current=doorId}}
 		/>
 		<button onClick={() => {linkFunction(linkFromDoorId.current,linkToDoorId.current)}}>LINK</button>
-		<RoomDropdown name="From:"
+		<RoomDropDown name="From:"
 		              rooms={_.keys(roomToDoors)}
 		              onChange={(roomId:string)=>{findFromRoomId.current=roomId}}
 		/>
-		<RoomDropdown name="To:"
+		<RoomDropDown name="To:"
 		              rooms={_.keys(roomToDoors)}
 		              onChange={(roomId:string)=>{findToRoomId.current=roomId}}
 		/>
