@@ -4,6 +4,7 @@ import {CFG} from './AllRooms.js';
 import {DoorDropDown} from './components/DoorDropDown.js';
 import {RoomDropDown} from './components/RoomDropDown.js';
 import {RoomNode, findAllPaths} from './util/FindAllPaths.js';
+import {loadJson, saveJson} from './util/io.js';
 import _ from 'lodash';
 
 function validateFromTo(from: string|undefined, to: string|undefined): boolean
@@ -29,10 +30,24 @@ export function Mapper()
 	const linkToDoorId = useRef(undefined);
 	const findFromRoomId = useRef(undefined);
 	const findToRoomId = useRef(undefined);
+	
+	const loadState = (): void => {
+		loadJson((e): void => {
+			let data: any = JSON.parse(e.target.result);
 
-	useEffect(() => {
-		setUnlinkedRooms(_.cloneDeep(CFG.doors));
-	}, []);
+			setRoomsToDoors(data.roomToDoors);
+			setDoorToDoor(data.doorToDoor);
+			setUnlinkedRooms(data.unlinkedRooms);
+		});
+	};
+
+	const saveState = (): void => {
+		saveJson(JSON.stringify({
+			roomToDoors: roomToDoors,
+			doorToDoor: doorToDoor,
+			unlinkedRooms: unlinkedRooms
+		}), 'lozr-cfg.json');
+	};
 
 	const linkFunction = (fromId:string, toId:string) => {
 		if (!validateFromTo(fromId, toId)) {
@@ -83,6 +98,10 @@ export function Mapper()
 		console.log(allPaths);
 	};
 
+	useEffect(() => {
+		setUnlinkedRooms(_.cloneDeep(CFG.doors));
+	}, []);
+
 	return (<>
 		<DoorDropDown name="From:"
 		              doors={_.keys(unlinkedRooms)}
@@ -102,5 +121,7 @@ export function Mapper()
 		              onChange={(roomId:string)=>{findToRoomId.current=roomId}}
 		/>
 		<button onClick={()=>{findFunction(findFromRoomId.current,findToRoomId.current)}}>FIND</button>
+		<button onClick={saveState}>SAVE</button>
+		<button onClick={loadState}>LOAD</button>
 	</>);
 }
