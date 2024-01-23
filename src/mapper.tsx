@@ -32,9 +32,7 @@ export function Mapper()
 	const findToRoomId = useRef(undefined);
 	
 	const loadState = (): void => {
-		loadJson((e): void => {
-			let data: any = JSON.parse(e.target.result);
-
+		loadJson((data: any): void => {
 			setRoomsToDoors(data.roomToDoors);
 			setDoorToDoor(data.doorToDoor);
 			setUnlinkedRooms(data.unlinkedRooms);

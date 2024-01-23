@@ -1,5 +1,5 @@
 
-export function loadJson(onload: (e: any) => void)
+export function loadJson(callback: (data: any) => void)
 {
 	let input = document.createElement('input');
 
@@ -9,7 +9,9 @@ export function loadJson(onload: (e: any) => void)
 		let reader = new FileReader();
 
 		reader.readAsText(file, 'UTF-8');
-		reader.onload = onload;
+		reader.onload = (e): void => {
+			callback(JSON.parse(e.target.result));
+		};
 	};
 	input.click();
 }
