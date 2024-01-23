@@ -3,7 +3,8 @@ import {useState, useEffect, useRef} from 'react';
 import {CFG} from './AllRooms.js';
 import {DoorDropDown} from './components/DoorDropDown.tsx';
 import {RoomDropDown} from './components/RoomDropDown.tsx';
-import {RoomNode, findAllPaths, separatePathTree} from './util/FindAllPaths.ts';
+import {PathDisplay} from './components/PathDisplay.tsx';
+import {findAllPaths, separatePathTree} from './util/FindAllPaths.ts';
 import {loadJson, saveJson} from './util/io.ts';
 import _ from 'lodash';
 
@@ -25,6 +26,7 @@ export function Mapper()
 	const [roomToDoors, setRoomsToDoors] = useState({});
 	const [doorToDoor, setDoorToDoor] = useState({});
 	const [unlinkedRooms, setUnlinkedRooms] = useState({});
+	const [foundPaths, setFoundPaths] = useState([]);
 
 	const linkFromDoorId = useRef(undefined);
 	const linkToDoorId = useRef(undefined);
@@ -83,23 +85,12 @@ export function Mapper()
 		setUnlinkedRooms(newUnlinks);
 	};
 
-	const printPath(path: string[]) => {
-	};
-
 	const findFunction = (fromId:string, toId:string) => {
-		if (!validateFromTo(fromId, toId)) {
-			return;
-		}
+		if (validateFromTo(fromId, toId)) {
+			console.log(`Finding path from ${fromId} to ${toId}`);
 
-		console.log(`Finding path from ${fromId} to ${toId}`);
-
-		let allPaths: RoomNode = findAllPaths(roomToDoors, doorToDoor,
-		                                      fromId, toId);
-
-		let splitPaths: string[][] = separatePathTree(allPaths);
-
-		for (let path of splitPaths) {
-			printPath(path);
+			setFoundPaths(separatePathTree(findAllPaths(roomToDoors, doorToDoor,
+								    fromId, toId)));
 		}
 	};
 
@@ -128,5 +119,6 @@ export function Mapper()
 		<button onClick={()=>{findFunction(findFromRoomId.current,findToRoomId.current)}}>FIND</button>
 		<button onClick={saveState}>SAVE</button>
 		<button onClick={loadState}>LOAD</button>
+		<PathDisplay paths={foundPaths} />
 	</>);
 }
