@@ -3,7 +3,7 @@ import {useState, useEffect, useRef} from 'react';
 import {CFG} from './AllRooms.js';
 import {DoorDropDown} from './components/DoorDropDown.tsx';
 import {RoomDropDown} from './components/RoomDropDown.tsx';
-import {RoomNode, findAllPaths} from './util/FindAllPaths.ts';
+import {RoomNode, findAllPaths, separatePathTree} from './util/FindAllPaths.ts';
 import {loadJson, saveJson} from './util/io.ts';
 import _ from 'lodash';
 
@@ -83,6 +83,9 @@ export function Mapper()
 		setUnlinkedRooms(newUnlinks);
 	};
 
+	const printPath(path: string[]) => {
+	};
+
 	const findFunction = (fromId:string, toId:string) => {
 		if (!validateFromTo(fromId, toId)) {
 			return;
@@ -90,10 +93,14 @@ export function Mapper()
 
 		console.log(`Finding path from ${fromId} to ${toId}`);
 
-		let allPaths: RoomNode = findAllPaths(new Set(), roomToDoors,
-		                                      doorToDoor, fromId, toId);
+		let allPaths: RoomNode = findAllPaths(roomToDoors, doorToDoor,
+		                                      fromId, toId);
 
-		console.log(allPaths);
+		let splitPaths: string[][] = separatePathTree(allPaths);
+
+		for (let path of splitPaths) {
+			printPath(path);
+		}
 	};
 
 	useEffect(() => {

@@ -1,14 +1,16 @@
 
 export interface RoomNode {
 	roomName: string;
+	doorToGetHere: string|null;
 	nextRoomNodes: RoomNode[];
 }
 
-export function findAllPaths(visited: Set<string>,
-                      roomToDoors: Record<string, string[]>,
-                      doorToDoor: Record<string, string>,
-                      start: string,
-                      end: string): RoomNode
+function _findAllPaths(visited: Set<string>,
+                       roomToDoors: Record<string, string[]>,
+                       doorToDoor: Record<string, string>,
+                       doorToGetHere: string,
+                       start: string,
+                       end: string): RoomNode
 {
 	let roomNode: RoomNode|null = null;
 
@@ -21,21 +23,23 @@ export function findAllPaths(visited: Set<string>,
 	if (start === end) {
 		roomNode = {
 			roomName: start,
+			doorToGetHere: doorToGetHere,
 			nextRoomNodes: []
-		};
+		} as RoomNode;
 	} else if (roomToDoors[start] !== undefined) {
 		roomNode = {
-			roomNode: start,
+			roomName: start,
+			doorToGetHere: doorToGetHere,
 			nextRoomNodes: []
-		};
+		} as RoomNode;
 
 		for (let fromDoorId of roomToDoors[start]) {
 			let toDoorId: string = doorToDoor[fromDoorId];
 			let idOfNextRoom: string = toDoorId.split('/')[0];
 
 			let nextRoom: RoomNode =
-			    findAllPaths(visited, roomToDoors, doorToDoor,
-			                 idOfNextRoom, end);
+			    _findAllPaths(visited, roomToDoors, doorToDoor,
+			                  fromDoorId, idOfNextRoom, end);
 
 			if (nextRoom !== null) {
 				roomNode.nextRoomNodes.push(nextRoom);
@@ -51,3 +55,35 @@ export function findAllPaths(visited: Set<string>,
 	return roomNode;
 }
 
+export function findAllPaths(roomToDoors: Record<string, string[]>,
+                             doorToDoor: Record<string, string>,
+                             start: string,
+                             end: string): RoomNode
+{
+	return _findAllPaths(new Set(), roomToDoors, doorToDoor, null, start, end);
+}
+
+
+function _separatePathTree(node: RoomNode, roomList: string[]): string[][]
+{
+	roomList.push(String(node.doorToGetHere) + "," + node.roomName);
+
+	if (!node.nextRoomNodes.length) {
+		return [roomList];
+	}
+
+	let roomListList: string[][] = [];
+
+	for (let n of node.nextRoomNodes) {
+		for (let newPath of _separatePathTree(n, [...roomList])) {
+			roomListList.push(newPath);
+		}
+	}
+
+	return roomListList;
+}
+
+export function separatePathTree(node: RoomNode): string[][]
+{
+	return _separatePathTree(node, []);
+}
