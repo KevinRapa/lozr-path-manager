@@ -1,5 +1,5 @@
 import './App.css';
-import { Mapper } from './mapper.js';
+import { Mapper } from './mapper.tsx';
 
 function App() {
   return (

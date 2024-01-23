@@ -1,5 +1,5 @@
 import {CFG} from '../AllRooms.js';
-import {DropDown} from './DropDown.js';
+import {DropDown} from './DropDown.tsx';
 
 interface RoomDropDownProps {
 	name: string;

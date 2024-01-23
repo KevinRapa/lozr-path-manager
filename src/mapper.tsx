@@ -1,10 +1,10 @@
 import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import {CFG} from './AllRooms.js';
-import {DoorDropDown} from './components/DoorDropDown.js';
-import {RoomDropDown} from './components/RoomDropDown.js';
-import {RoomNode, findAllPaths} from './util/FindAllPaths.js';
-import {loadJson, saveJson} from './util/io.js';
+import {DoorDropDown} from './components/DoorDropDown.tsx';
+import {RoomDropDown} from './components/RoomDropDown.tsx';
+import {RoomNode, findAllPaths} from './util/FindAllPaths.ts';
+import {loadJson, saveJson} from './util/io.ts';
 import _ from 'lodash';
 
 function validateFromTo(from: string|undefined, to: string|undefined): boolean
