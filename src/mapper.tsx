@@ -23,10 +23,10 @@ function validateFromTo(from: string|undefined, to: string|undefined): boolean
 
 export function Mapper()
 {
-	const [roomToDoors, setRoomsToDoors] = useState({});
-	const [doorToDoor, setDoorToDoor] = useState({});
-	const [unlinkedRooms, setUnlinkedRooms] = useState({});
-	const [foundPaths, setFoundPaths] = useState([]);
+	const [roomToDoors, setRoomsToDoors] = useState<Record<string, string[]>>({});
+	const [doorToDoor, setDoorToDoor] = useState<Record<string, string>>({});
+	const [unlinkedRooms, setUnlinkedRooms] = useState<Record<string, string>>({});
+	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 
 	const linkFromDoorId = useRef(undefined);
 	const linkToDoorId = useRef(undefined);
@@ -89,13 +89,20 @@ export function Mapper()
 		if (validateFromTo(fromId, toId)) {
 			console.log(`Finding path from ${fromId} to ${toId}`);
 
-			setFoundPaths(separatePathTree(findAllPaths(roomToDoors, doorToDoor,
-								    fromId, toId)));
+			let allPaths: string[][] = separatePathTree(findAllPaths(roomToDoors, doorToDoor, fromId, toId));
+
+			console.log(allPaths);
+
+			setFoundPaths(allPaths);
 		}
 	};
 
 	useEffect(() => {
 		setUnlinkedRooms(_.cloneDeep(CFG.doors));
+
+		for (let pair of CFG.auto_add) {
+			linkFunction(pair[0], pair[1]);
+		}
 	}, []);
 
 	return (<>

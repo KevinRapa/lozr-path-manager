@@ -26,17 +26,38 @@ function Path(props: PathProps): JSX.Element
 			if (toGetHere !== undefined) {
 				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoom } </p>;
 			} else {
-				return <p> { thisRoom } </p>;
+				return <p> { "START AT " + thisRoom } </p>;
 			}
 		})
 	} </div>;
 }
 
+const DIGIT_RE = /^\d+$/;
+
 export function PathDisplay(props: PathDisplayProps): JSX.Element
 {
-	return <> {
-		props.paths.map((path: string[]): JSX.Element => {
-			return <Path path={path} />;
-		})
-	} </>;
+	const [maxPaths, setMaxPaths] = useState<number>(2);
+
+	const trySetMaxPaths = (s: string) => {
+		if (s.length < 3 && DIGIT_RE.test(s)) {
+			setMaxPaths(Number(s));
+		}
+	};
+
+	props.paths.sort((p1: string[], p2: string[]) => {
+		return p1.length - p2.length;
+	});
+
+	return <> 
+		<label>
+			Max results:
+			<textarea rows={1} cols={2}
+			          defaultValue={maxPaths}
+				  onChange={e => trySetMaxPaths(e.target.value)} />
+		</label>
+		<div> {
+			props.paths.slice(0, Math.min(props.paths.length, maxPaths))
+			           .map(path => <Path path={path} />)
+		} </div>
+	</>;
 }
