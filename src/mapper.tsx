@@ -100,9 +100,6 @@ export function Mapper()
 	useEffect(() => {
 		setUnlinkedRooms(_.cloneDeep(CFG.doors));
 
-		for (let pair of CFG.auto_add) {
-			linkFunction(pair[0], pair[1]);
-		}
 	}, []);
 
 	return (<>
