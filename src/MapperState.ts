@@ -4,6 +4,19 @@ export interface MapperState {
 	unlinkedRooms: Record<string, string>
 }
 
+export function validateFromTo(from: string|undefined, to: string|undefined): boolean
+{
+	if (undefined === from || undefined === to) {
+		console.log(`Both selections must be defined [${from}, ${to}]`);
+		return false;
+	} else if (from === to) {
+		console.log("FROM and TO cannot be the same");
+		return false;
+	}
+
+	return true;
+}
+
 export function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
