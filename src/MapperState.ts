@@ -6,7 +6,7 @@ export interface MapperState {
 
 export function validateFromTo(from: string|undefined, to: string|undefined): boolean
 {
-	if (undefined === from || undefined === to) {
+	if (!from || !to) {
 		console.log(`Both selections must be defined [${from}, ${to}]`);
 		return false;
 	} else if (from === to) {
