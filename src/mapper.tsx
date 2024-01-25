@@ -1,8 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import {CFG} from './AllRooms.js';
-import {DoorDropDown} from './components/DoorDropDown.tsx';
-import {RoomDropDown} from './components/RoomDropDown.tsx';
 import {PathDisplay} from './components/PathDisplay.tsx';
 import {FromToModule} from './components/FromToModule.tsx';
 import {MapperState,getUpdatedState,validateFromTo} from './MapperState.ts';
