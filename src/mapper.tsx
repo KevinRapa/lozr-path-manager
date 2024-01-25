@@ -13,7 +13,7 @@ import _ from 'lodash';
 export function Mapper()
 {
 	const [mapperState, setMapperState] = useState<MapperState>({
-		unlinkedRooms: CFG.doors,
+		unlinkedDoors: CFG.doors,
 		roomToDoors: {},
 		doorToDoor: {}
 	});
@@ -36,7 +36,7 @@ export function Mapper()
 	}, []);
 
 	return <>
-		<FromToModule entries={_.keys(mapperState.unlinkedRooms)}
+		<FromToModule entries={_.keys(mapperState.unlinkedDoors)}
 		              onClick={linkFunction}
 			      idToNameMap={CFG.doors}
 		              buttonTitle={"LINK"}

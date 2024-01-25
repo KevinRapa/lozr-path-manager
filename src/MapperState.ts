@@ -1,7 +1,7 @@
 export interface MapperState {
 	roomToDoors: Record<string, string[]>,
 	doorToDoor: Record<string, string>,
-	unlinkedRooms: Record<string, string>
+	unlinkedDoors: Record<string, string>
 }
 
 export function validateFromTo(from: string|undefined, to: string|undefined): boolean
@@ -26,8 +26,8 @@ export function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 			continue;
 		}
 
-		delete newState.unlinkedRooms[pair[0]];
-		delete newState.unlinkedRooms[pair[1]];
+		delete newState.unlinkedDoors[pair[0]];
+		delete newState.unlinkedDoors[pair[1]];
 
 		let fromRoomId:string = pair[0].split("/")[0];
 		let toRoomId:string = pair[1].split("/")[0];
