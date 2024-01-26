@@ -1,3 +1,4 @@
+import {CFG} from '../AllRooms.js';
 
 export interface RoomNode {
 	roomName: string;
@@ -44,7 +45,7 @@ function _findAllPaths(visited: Set<string>,
 			}
 
 			let nextRoom: RoomNode =
-			    _findAllPaths(visited, roomToDoors, doorToDoor,
+			    _findAllPaths(visited, isChild, roomToDoors, doorToDoor,
 			                  fromDoorId, idOfNextRoom, end);
 
 			if (nextRoom !== null) {
