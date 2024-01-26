@@ -12,7 +12,7 @@ interface PathProps {
 function Path(props: PathProps): JSX.Element
 {
 	if (props.path.length === 0) {
-		return <div> { "Error occurred" } </div>;
+		return <div> { "No path found" } </div>;
 	} else if (props.path.length === 1) {
 		return <div> { "You are already there" } </div>;
 	}
@@ -50,14 +50,16 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 
 	return <> 
 		<label>
-			Max results:
+			{"Max results:"}
 			<textarea rows={1} cols={2}
 			          defaultValue={maxPaths}
 				  onChange={e => trySetMaxPaths(e.target.value)} />
 		</label>
 		<div> {
-			props.paths.slice(0, Math.min(props.paths.length, maxPaths))
-			           .map(path => <Path path={path} />)
+			props.paths.length ? props.paths
+			                          .slice(0, Math.min(props.paths.length, maxPaths))
+			                          .map(path => <Path path={path} />)
+			                   : Path({ path: [] })
 		} </div>
 	</>;
 }

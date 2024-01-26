@@ -39,8 +39,8 @@ function _findAllPaths(visited: Set<string>,
 			let toDoorId: string = doorToDoor[fromDoorId];
 			let idOfNextRoom: string = toDoorId.split('/')[0];
 
-			if ((isChild && CFG.adult_only.includes(idOfNextRoom)) ||
-			    (!isChild && CFG.child_only.includes(idOfNextRoom))) {
+			if ((isChild && CFG.adult_only.includes(fromDoorId)) ||
+			    (!isChild && CFG.child_only.includes(fromDoorId))) {
 				continue;
 			}
 
@@ -72,8 +72,12 @@ export function findAllPaths(roomToDoors: Record<string, string[]>,
 }
 
 
-function _separatePathTree(node: RoomNode, roomList: string[]): string[][]
+function _separatePathTree(node: RoomNode|null, roomList: string[]): string[][]
 {
+	if (node === null) {
+		return [];
+	}
+
 	roomList.push(String(node.doorToGetHere) + "," + node.roomName);
 
 	if (!node.nextRoomNodes.length) {
@@ -91,7 +95,7 @@ function _separatePathTree(node: RoomNode, roomList: string[]): string[][]
 	return roomListList;
 }
 
-export function separatePathTree(node: RoomNode): string[][]
+export function separatePathTree(node: RoomNode|null): string[][]
 {
 	return _separatePathTree(node, []);
 }

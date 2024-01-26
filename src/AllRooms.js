@@ -12,7 +12,6 @@ export const CFG = {
 		"G": "Kakariko Village Graveyard",
 		"GC-SH": "Goron City Shop",
 		"GC": "Goron City",
-		"GCG": "Ganon's Castle Grounds",
 		"GF-GTG": "Gerudo Training Grounds",
 		"GF": "Gerudo Fortress",
 		"GV-CT": "Gerudo Valley - Carpenter's Tent",
@@ -110,11 +109,11 @@ export const CFG = {
 		"ZR-G-F": "Grotto, Fairy Fountain",
 		"ZR-G-O": "Grotto, Chest",
 		"ZR-G-S": "Grotto, Two Scrubs",
-		"CG-GFF": "Great Fairy Fountain (Din's Fire)",
+		"CG-GFF-C": "Great Fairy Fountain (Din's Fire)",
 		"DC-GFF": "Great Fairy Fountain (Nayru's Love)",
 		"DMC-GFF": "Great Fairy Fountain (Double Magic)",
 		"DMT-GFF": "Great Fairy Fountain (Magic Meter)",
-		"GCG-GFF": "Great Fairy Fountain (Double Defense)",
+		"CG-GFF-A": "Great Fairy Fountain (Double Defense)",
 		"ZF-GFF": "Great Fairy Fountain (Farore's Wind)",
 	},
 	doors: {
@@ -200,12 +199,12 @@ export const CFG = {
 		"ZR/ZR-G-O": "Grotto Entrance, Zora's River, Open",
 		"ZR/ZR-G-S": "Grotto Entrance, Zora's River, Ring of Rocks",
 
-		"CG-GFF/CG": "Great Fairy Fountain (Din's Fire)",
-		"DC-GFF/DC": "Great Fairy Fountain (Naryru's Love)",
-		"DMC-GFF/DMC": "Great Fairy Fountain (Double Magic)",
-		"DMT-GFF/DMT": "Great Fairy Fountain (Magic Meter)",
-		"GCG-GFF/GCG": "Great Fairy Fountain (Double Defense)",
-		"ZF-GFF/ZF": "Great Fairy Fountain (Farore's Wind)",
+		"CG-GFF-C/CG": "Great Fairy Fountain Exit (Din's Fire)",
+		"DC-GFF/DC": "Great Fairy Fountain Exit (Naryru's Love)",
+		"DMC-GFF/DMC": "Great Fairy Fountain Exit (Double Magic)",
+		"DMT-GFF/DMT": "Great Fairy Fountain Exit (Magic Meter)",
+		"CG-GFF-A/CG": "Great Fairy Fountain Exit (Double Defense)",
+		"ZF-GFF/ZF": "Great Fairy Fountain Exit (Farore's Wind)",
 		"ME-HOP/ME": "Market Entrance - House of Poe Exit",
 		"KV-HOS/KV": "Kakariko Village - House of Skulltula Exit",
 		"KF-HOT/KF": "Kokiri Forest - House of Twins Exit ",
@@ -245,7 +244,7 @@ export const CFG = {
 		"LLR-TH/LLR": "Lon Lon Ranch - Talon's House Exit",
 		"TOTC-TOT/TOTC": "Temple of Time Courtyard - Temple of Time Exit",
 		"KV-W/KV": "Kakariko Village - Windmill Exit",
-		"CG/CG-GFF": "Castle Grounds - Great Fairy Fountain Entrance",
+		"CG/CG-GFF-C": "Castle Grounds - Great Fairy Fountain Entrance (Child)",
 		"CG/M": "Castle Grounds - Market Exit",
 		"DC/DC-GFF": "Desert Colossus - Great Fairy Fountain Entrance",
 		"DC/DC-SPT": "Desert Colossus - Spirit Temple Entrance",
@@ -266,8 +265,7 @@ export const CFG = {
 		"GC/DMC": "Goron City - Darunia's Chamber to Death Mountain Crater",
 		"GC/DMT": "Goron City - Death Mountain Trail",
 		"GC/LW": "Goron City - Warp to Lost Woods",
-		"GCG/GCG-GFF": "Ganon's Castle Grounds - Great Fairy Fountain Entrance",
-		"GCG/M": "Ganon's Castle Grounds - Market",
+		"CG/CG-GFF-A": "Castle Grounds - Great Fairy Fountain Entrance (Adult)",
 		"GF/GF-GTG": "Gerudo Fortress - Gerudo Training Grounds Entrance",
 		"GF/GV": "Gerudo Fortress - Gerudo Valley",
 		"GF/HW": "Gerudo Fortress - Haunted Wasteland",
@@ -333,10 +331,9 @@ export const CFG = {
 		"M/M-SH-P": "Market - Potion Shop Entrance",
 		"M/M-TCG": "Market - Treasure Chest Game Entrance",
 		"M/CG": "Market - Castle Grounds",
-		"M/GCG": "Market - Ganon's Castle Grounds",
 		"M/ME": "Market - Market Entrance",
 		"M/TOTC": "Market - Temple of Time Courtyard",
-		"ME/ME-HOP": "Market Entrance - House of Poe Entrance",
+		"ME/ME-HOP": "Market Entrance - House of Poe Entrance",  // TODO: go to different places?
 		"ME/ME-GH": "Market Entrance - Guard House Entrance",
 		"ME/HF": "Market Entrance - Hyrule Field",
 		"ME/M": "Market Entrance - Market",
@@ -360,5 +357,59 @@ export const CFG = {
 	},
 	auto_add: [
 		["KV/KVB", "KVB/KV"]
+	],
+	adult_only: [
+		// Kakariko Village
+		"KV/KV-SG",     // Shooting Gallery
+		"KV/KV-SH-B",   // Bazaar
+		"KVB/KV-SH-P",  // Back entrance to potion shop
+		"KV-SH-P/KVB",  // Back exit  TODO: clip through?
+
+		// Castle Grounds
+		"CG/CG-GFF-A",  // GFF
+
+		// Gerudo Training Grounds Entrance
+		"GF/GF-GTG",
+
+		"GV/GV-CT",    // Carpenter's Tent Entrance
+		"GV/GV-G-FS",  // Grotto behind Carpenter's Tent
+
+		// Temple Entrances
+		"SFM/SFM-FOT",  // Forest
+		"LH/LH-WT",     // Water
+		// TODO Shadow temple entrance?
+		// TODO the one way across gerudo valley bridge
+	],
+	child_only: [
+		// Buildings in market
+		"M/M-BB",
+		"M/M-MGH",
+		"M/M-SG",
+		"M/M-SH-B",
+		"M/M-SH-BC",
+		"M/M-SH-M",
+		"M/M-SH-P",
+		"M/M-TCG",
+
+		// Warp to/from zora's domain
+		"ZD/LH",
+		"LH/ZD",
+
+		// Entrance to Jaba Jaba's belly
+		"ZF/ZF-JJB",
+
+		// Grottos
+		"CG/CG-G",    // Castle grounds
+		"LLR/LLR-G",  // Lon Lon Ranch
+		
+		// Castle Grounds
+		"CG/CG-GFF-C",  // GFF
+
+		// BOTW Entrance
+		"KV/BOTW-T",
+
+		// TODO: Graves in graveyard?
+		// "ZD/ZD-G": TODO
+		// "ZR/ZR-G-S": TODO
 	]
 };
