@@ -6,6 +6,7 @@ export interface RoomNode {
 }
 
 function _findAllPaths(visited: Set<string>,
+                       isChild: boolean,
                        roomToDoors: Record<string, string[]>,
                        doorToDoor: Record<string, string>,
                        doorToGetHere: string,
@@ -37,6 +38,11 @@ function _findAllPaths(visited: Set<string>,
 			let toDoorId: string = doorToDoor[fromDoorId];
 			let idOfNextRoom: string = toDoorId.split('/')[0];
 
+			if ((isChild && CFG.adult_only.includes(idOfNextRoom)) ||
+			    (!isChild && CFG.child_only.includes(idOfNextRoom))) {
+				continue;
+			}
+
 			let nextRoom: RoomNode =
 			    _findAllPaths(visited, roomToDoors, doorToDoor,
 			                  fromDoorId, idOfNextRoom, end);
@@ -58,9 +64,10 @@ function _findAllPaths(visited: Set<string>,
 export function findAllPaths(roomToDoors: Record<string, string[]>,
                              doorToDoor: Record<string, string>,
                              start: string,
-                             end: string): RoomNode
+                             end: string,
+                             isChild: boolean): RoomNode
 {
-	return _findAllPaths(new Set(), roomToDoors, doorToDoor, null, start, end);
+	return _findAllPaths(new Set(), isChild, roomToDoors, doorToDoor, null, start, end);
 }
 
 

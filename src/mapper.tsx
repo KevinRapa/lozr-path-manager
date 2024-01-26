@@ -1,8 +1,9 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState,useEffect,useRef} from 'react';
 import {CFG} from './AllRooms.js';
 import {PathDisplay} from './components/PathDisplay.tsx';
 import {FromToModule} from './components/FromToModule.tsx';
+import {AdultChildButtons,LinkState} from './components/AdultChildButtons.tsx';
 import {MapperState,getUpdatedState,validateFromTo} from './MapperState.ts';
 import {findAllPaths, separatePathTree} from './util/FindAllPaths.ts';
 import {loadJson, saveJson} from './util/io.ts';
@@ -16,6 +17,7 @@ export function Mapper()
 		doorToDoor: {}
 	});
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
+	const linkState = useRef<LinkState>("CHILD");
 
 	const linkFunction = (fromId:string, toId:string) => {
 		setMapperState(getUpdatedState([[fromId, toId]], mapperState));
@@ -25,7 +27,8 @@ export function Mapper()
 		if (validateFromTo(fromId, toId)) {
 			setFoundPaths(separatePathTree(findAllPaths(mapperState.roomToDoors,
 			                                            mapperState.doorToDoor,
-			                                            fromId, toId)));
+			                                            fromId, toId,
+			                                            linkState.current==="CHILD")));
 		}
 	};
 
@@ -34,14 +37,17 @@ export function Mapper()
 	}, []);
 
 	return <>
+		<AdultChildButtons initialState={linkState.current}
+		                   onChange={(state:string)=>{linkState.current=state}}
+		/>
 		<FromToModule entries={_.keys(mapperState.unlinkedDoors)}
 		              onClick={linkFunction}
-			      idToNameMap={CFG.doors}
+		              idToNameMap={CFG.doors}
 		              buttonTitle={"LINK"}
 		/>
 		<FromToModule entries={_.keys(mapperState.roomToDoors)}
 		              onClick={findFunction}
-			      idToNameMap={CFG.areas}
+		              idToNameMap={CFG.areas}
 		              buttonTitle={"FIND"}
 		/>
 		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>SAVE</button>
