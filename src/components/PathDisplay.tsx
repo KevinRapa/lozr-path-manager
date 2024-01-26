@@ -48,6 +48,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		return p1.length - p2.length;
 	});
 
+	// TODO: Messy
 	return <> 
 		<label>
 			{"Max results:"}
