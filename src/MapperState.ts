@@ -1,3 +1,5 @@
+import {CFG} from './AllRooms.js';
+
 export interface MapperState {
 	roomToDoors: Record<string, string[]>,
 	doorToDoor: Record<string, string>,
@@ -40,10 +42,12 @@ export function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 		}
 
 		newState.roomToDoors[fromRoomId].push(pair[0]);
-		newState.roomToDoors[toRoomId].push(pair[1]);
-
 		newState.doorToDoor[pair[0]] = pair[1];
-		newState.doorToDoor[pair[1]] = pair[0];
+
+		if (!CFG.one_way.includes(pair[0])) {
+			newState.roomToDoors[toRoomId].push(pair[1]);
+			newState.doorToDoor[pair[1]] = pair[0];
+		}
 	}
 
 	return newState;

@@ -356,7 +356,8 @@ export const CFG = {
 		"ZR/ZD": "Zora's River - Zora's Domain"
 	},
 	auto_add: [
-		["KV/KVB", "KVB/KV"]
+		["KV/KVB", "KVB/KV"],
+		["GV/LH", "LH/GV"],
 	],
 	adult_only: [
 		// Kakariko Village
@@ -411,5 +412,11 @@ export const CFG = {
 		// TODO: Graves in graveyard?
 		// "ZD/ZD-G": TODO
 		// "ZR/ZR-G-S": TODO
+	],
+	one_way: [
+		"GV/LH",
+	],
+	no_add: [
+		"KVB",
 	]
 };

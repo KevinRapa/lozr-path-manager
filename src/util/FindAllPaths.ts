@@ -41,7 +41,7 @@ function _findAllPaths(visited: Set<string>,
 
 			if ((isChild && CFG.adult_only.includes(fromDoorId)) ||
 			    (!isChild && CFG.child_only.includes(fromDoorId))) {
-				continue;
+				continue;  // Door exists only in the age Link isn't
 			}
 
 			let nextRoom: RoomNode =

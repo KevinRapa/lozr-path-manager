@@ -32,6 +32,11 @@ export function Mapper()
 		}
 	};
 
+	const getSelectableRooms = () => {
+		return _.keys(mapperState.roomToDoors)
+		        .filter(room => !CFG.no_add.includes(room));
+	};
+
 	useEffect(() => {
 		setMapperState(getUpdatedState(CFG.auto_add, mapperState));
 	}, []);
@@ -45,7 +50,7 @@ export function Mapper()
 		              idToNameMap={CFG.doors}
 		              buttonTitle={"LINK"}
 		/>
-		<FromToModule entries={_.keys(mapperState.roomToDoors)}
+		<FromToModule entries={getSelectableRooms()}
 		              onClick={findFunction}
 		              idToNameMap={CFG.areas}
 		              buttonTitle={"FIND"}
