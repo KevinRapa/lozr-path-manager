@@ -14,7 +14,8 @@ export function Mapper()
 	const [mapperState, setMapperState] = useState<MapperState>({
 		unlinkedDoors: CFG.doors,
 		roomToDoors: {},
-		doorToDoor: {}
+		doorToDoor: {},
+		additionalBegin: []
 	});
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 	const linkState = useRef<LinkState>("CHILD");
@@ -24,12 +25,21 @@ export function Mapper()
 	};
 
 	const findFunction = (fromId:string, toId:string) => {
-		if (validateFromTo(fromId, toId)) {
-			setFoundPaths(separatePathTree(findAllPaths(mapperState.roomToDoors,
-			                                            mapperState.doorToDoor,
-			                                            fromId, toId,
-			                                            linkState.current==="CHILD")));
+		let allStarts: string[] = [fromId].concat(mapperState.additionalBegin);
+		let allPaths: string[][] = [];
+
+		for (let startId of allStarts) {
+			if (!validateFromTo(startId, toId)) {
+				return;
+			}
+
+			let foundPaths: string[][] = separatePathTree(findAllPaths(mapperState.roomToDoors,
+			                                              mapperState.doorToDoor,
+			                                              startId, toId,
+			                                              linkState.current==="CHILD"));
+			allPaths.push(...foundPaths);
 		}
+		setFoundPaths(allPaths);
 	};
 
 	const getSelectableRooms = () => {
