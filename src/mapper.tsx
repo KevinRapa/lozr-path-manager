@@ -16,7 +16,7 @@ export interface MapperState {
 	additionalBegin: Record<string, string>
 }
 
-function getUpdatedState(fromTo: string[2][], oldState: MapperState)
+function getUpdatedDoors(fromTo: string[2][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
@@ -39,16 +39,32 @@ function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 		if (!newState.roomToDoors[fromRoomId]) {
 			newState.roomToDoors[fromRoomId] = [];
 		}
-		if (!newState.roomToDoors[toRoomId]) {
-			newState.roomToDoors[toRoomId] = [];
-		}
-
 		newState.roomToDoors[fromRoomId].push(pair[0]);
 		newState.doorToDoor[pair[0]] = pair[1];
 
 		if (!CFG.one_way.includes(pair[0])) {
+			if (!newState.roomToDoors[toRoomId]) {
+				newState.roomToDoors[toRoomId] = [];
+			}
 			newState.roomToDoors[toRoomId].push(pair[1]);
 			newState.doorToDoor[pair[1]] = pair[0];
+		}
+	}
+
+	return newState;
+}
+
+function getUpdatedWarps(fromTo: string[2][], oldState: MapperState)
+{
+	let newState: MapperState = _.cloneDeep(oldState);
+
+	for (let pair of fromTo) {
+		newState.additionalBegin[pair[1]] = pair[0];
+		delete newState.unlinkedWarps[pair[0]];
+
+		if (undefined === newState.roomToDoors[pair[1]]) {
+			// Do this show that warp destination shows up in 'find' drop-down
+			newState.roomToDoors[pair[1]] = [];
 		}
 	}
 
@@ -58,7 +74,7 @@ function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 export function Mapper()
 {
 	const [mapperState, setMapperState] = useState<MapperState>(
-	    getUpdatedState(CFG.auto_add,
+	    getUpdatedDoors(CFG.auto_add,
 	                    {
 	                        unlinkedDoors: CFG.doors,
 	                        unlinkedWarps: CFG.warps,
@@ -71,18 +87,11 @@ export function Mapper()
 	const linkState = useRef<LinkState>("CHILD");
 
 	const linkFunction = (fromId:string, toId:string) => {
-		setMapperState(getUpdatedState([[fromId, toId]], mapperState));
+		setMapperState(getUpdatedDoors([[fromId, toId]], mapperState));
 	};
 
 	const linkWarpFunction = (fromId: string, toId: string) => {
-		let newState: MapperState = _.cloneDeep(mapperState);
-
-		newState.additionalBegin[toId] = fromId;
-		delete newState.unlinkedWarps[fromId];
-		if (undefined === newState.roomToDoors[toId]) {
-			newState.roomToDoors[toId] = [];
-		}
-		setMapperState(newState);
+		setMapperState(getUpdatedWarps([[fromId, toId]], mapperState));
 	};
 
 	const findFunction = (fromId:string, toId:string) => {
@@ -93,6 +102,7 @@ export function Mapper()
 				let warpMethod: string = mapperState.additionalBegin[roomId];
 
 				// filter out child spawn if link is adult, and vice versa
+				// TODO: Differentiate between a warp start and a regular start
 				return !((isChild && CFG.adult_only.includes(warpMethod)) ||
 				        (!isChild && CFG.child_only.includes(warpMethod)))
 			})
