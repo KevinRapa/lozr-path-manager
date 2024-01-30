@@ -1,9 +1,11 @@
 import {CFG} from './AllRooms.js';
 
 export interface MapperState {
-	roomToDoors: Record<string, string[]>,
-	doorToDoor: Record<string, string>,
+	roomToDoors: Record<string, string[]>
+	doorToDoor: Record<string, string>
 	unlinkedDoors: Record<string, string>
+	unlinkedDoors: Record<string, string>
+	additionalBegin: Record<string, string>
 }
 
 export function getUpdatedState(fromTo: string[2][], oldState: MapperState)
