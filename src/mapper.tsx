@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState,useEffect,useRef} from 'react';
+import {useState,useRef} from 'react';
 import {CFG} from './AllRooms.js';
 import {PathDisplay} from './components/PathDisplay.tsx';
 import {FromToModule} from './components/FromToModule.tsx';
@@ -11,13 +11,16 @@ import _ from 'lodash';
 
 export function Mapper()
 {
-	const [mapperState, setMapperState] = useState<MapperState>({
-		unlinkedDoors: CFG.doors,
-		unlinkedWarps: CFG.warps,
-		roomToDoors: {},
-		doorToDoor: {},
-		additionalBegin: {}
-	});
+	const [mapperState, setMapperState] = useState<MapperState>(
+	    getUpdatedState(CFG.auto_add,
+	                    {
+	                        unlinkedDoors: CFG.doors,
+	                        unlinkedWarps: CFG.warps,
+	                        roomToDoors: {},
+	                        doorToDoor: {},
+	                        additionalBegin: {}
+	                    })
+	);
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 	const linkState = useRef<LinkState>("CHILD");
 
@@ -78,10 +81,6 @@ export function Mapper()
 	let selectableRoomMap: Record<string, string> = Object.fromEntries(
 		getSelectableRooms().map(roomId => [roomId, CFG.areas[roomId]])
 	);
-
-	useEffect(() => {
-		setMapperState(getUpdatedState(CFG.auto_add, mapperState));
-	}, []);
 
 	console.log("Rendering: ");
 	console.log(mapperState);
