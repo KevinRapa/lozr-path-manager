@@ -1,17 +1,15 @@
 
 interface DropDownProps {
-	ids: string[];
 	idToNameMap: Record<string, string>;
 	onChange: (selectedId: string) => void;
 }
 
-function convertIdsToIdNamePairs(ids: string[], idToNameMap: Record<string, string>): string[2][]
+function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): string[2][]
 {
-	return ids.map((id: string): string => {
-		return [id, idToNameMap[id]];
-	}).sort((p1: string[2], p2: string[2]): number => {
-		return p1[1].localeCompare(p2[1]);
-	});
+	return Object.entries(idToNameMap)
+	             .sort((p1: string[2], p2: string[2]): number => {
+	                 return p1[1].localeCompare(p2[1]);
+	             });
 }
 
 export function DropDown(props: DropDownProps)
@@ -21,7 +19,7 @@ export function DropDown(props: DropDownProps)
 		props.onChange(e.target.value);
 	};
 
-	let dropDownElems: string[2][] = convertIdsToIdNamePairs(props.ids, props.idToNameMap);
+	let dropDownElems: string[2][] = convertIdsToIdNamePairs(props.idToNameMap);
 
 	return <select onChange={onChange}> {
 		dropDownElems.map((s: string[2]): JSX.Element => {

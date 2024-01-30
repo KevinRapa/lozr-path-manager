@@ -70,9 +70,14 @@ export function Mapper()
 	};
 
 	const getSelectableRooms = () => {
+		// Exclude rooms that shouldn't be known about, like "Kakariko Village Backyard"
 		return [..._.keys(mapperState.roomToDoors)
-		        .filter(room => !CFG.no_add.includes(room))];
+		            .filter(room => !CFG.no_add.includes(room))];
 	};
+
+	let selectableRoomMap: Record<string, string> = Object.fromEntries(
+		getSelectableRooms().map(roomId => [roomId, CFG.areas[roomId]])
+	);
 
 	useEffect(() => {
 		setMapperState(getUpdatedState(CFG.auto_add, mapperState));
@@ -85,25 +90,19 @@ export function Mapper()
 		<AdultChildButtons initialState={linkState.current}
 		                   onChange={(state:string)=>{linkState.current=state}}
 		/>
-		<FromToModule fromIds={_.keys(mapperState.unlinkedWarps)}
-		              toIds={_.keys(CFG.areas)}
-		              onClick={linkWarpFunction}
-		              idToNameMapFrom={mapperState.unlinkedWarps}
+		<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
 		              idToNameMapTo={CFG.areas}
+		              onClick={linkWarpFunction}
 		              buttonTitle={"LINK WARP"}
 		/>
-		<FromToModule fromIds={_.keys(mapperState.unlinkedDoors)}
-		              toIds={_.keys(mapperState.unlinkedDoors)}
+		<FromToModule idToNameMapFrom={mapperState.unlinkedDoors}
+		              idToNameMapTo={mapperState.unlinkedDoors}
 		              onClick={linkFunction}
-		              idToNameMapFrom={CFG.doors}
-		              idToNameMapTo={CFG.doors}
 		              buttonTitle={"LINK"}
 		/>
-		<FromToModule fromIds={getSelectableRooms()}
-		              toIds={getSelectableRooms()}
+		<FromToModule idToNameMapFrom={selectableRoomMap}
+		              idToNameMapTo={selectableRoomMap}
 		              onClick={findFunction}
-		              idToNameMapFrom={CFG.areas}
-		              idToNameMapTo={CFG.areas}
 		              buttonTitle={"FIND"}
 		/>
 		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>SAVE</button>

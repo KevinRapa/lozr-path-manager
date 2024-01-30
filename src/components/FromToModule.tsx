@@ -2,12 +2,10 @@ import {DropDown} from './DropDown.tsx';
 import {useRef} from 'react';
 
 interface FromToModuleProps {
-	fromIds: string[],
-	toIds: string[],
-	onClick: (fromLoc: string, toLoc: string) => void,
-	buttonTitle: string,
 	idToNameMapFrom: Record<string, string>
 	idToNameMapTo: Record<string, string>
+	onClick: (fromLoc: string, toLoc: string) => void
+	buttonTitle: string
 }
 
 export function FromToModule(props: FromToModuleProps)
@@ -30,13 +28,11 @@ export function FromToModule(props: FromToModuleProps)
 
 	return <>
 		<span>{"From:"}</span>
-		<DropDown ids={props.fromIds}
-		          idToNameMap={props.idToNameMapFrom}
+		<DropDown idToNameMap={props.idToNameMapFrom}
 		          onChange={fromChange}
 		/>
 		<span>{"To:"}</span>
-		<DropDown ids={props.toIds}
-		          idToNameMap={props.idToNameMapTo}
+		<DropDown idToNameMap={props.idToNameMapTo}
 		          onChange={toChange}
 		/>
 		<button onClick={onClick}>
