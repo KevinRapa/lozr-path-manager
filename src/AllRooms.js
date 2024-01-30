@@ -360,6 +360,8 @@ export const CFG = {
 		["GV/LH", "LH/GV"],
 	],
 	adult_only: [
+		"SPWN-A",
+
 		// Kakariko Village
 		"KV/KV-SG",     // Shooting Gallery
 		"KV/KV-SH-B",   // Bazaar
@@ -382,6 +384,8 @@ export const CFG = {
 		// TODO the one way across gerudo valley bridge
 	],
 	child_only: [
+		"SPWN-C",
+
 		// Buildings in market
 		"M/M-BB",
 		"M/M-MGH",
@@ -418,5 +422,15 @@ export const CFG = {
 	],
 	no_add: [
 		"KVB",
-	]
+	],
+	warps: {
+		"OC-POL": "Prelude of Light",
+		"OC-MOF": "Minuet of Forest",
+		"OC-BOF": "Bolero of Fire",
+		"OC-SOW": "Serenade of Water",
+		"OC-NOS": "Nocturne of Shadow",
+		"OC-ROS": "Requiem of Spirit",
+		"SPWN-A": "Adult Spawn",
+		"SPWN-C": "Child Spawn",
+	}
 };

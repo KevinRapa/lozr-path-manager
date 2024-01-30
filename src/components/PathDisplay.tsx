@@ -3,30 +3,33 @@ import {CFG} from '../AllRooms.js';
 
 interface PathDisplayProps {
 	paths: string[][],
+	songWarps: Record<string, string>
 }
 
 interface PathProps {
-	path: string[]
+	path: string[],
+	songWarps: Record<string, string>
 }
 
 function Path(props: PathProps): JSX.Element
 {
 	if (props.path.length === 0) {
 		return <div> { "No path found" } </div>;
-	} else if (props.path.length === 1) {
-		return <div> { "You are already there" } </div>;
 	}
 
 	return <div> {
 		props.path.map((pair: string): JSX.Element => {
 			let splitPair: string[2] = pair.split(',');
 			let toGetHere: string|undefined = CFG.doors[splitPair[0]];
-			let thisRoom: string = CFG.areas[splitPair[1]];
+			let thisRoomId: string = splitPair[1];
+			let thisRoomName: string = CFG.areas[thisRoomId];
 
 			if (toGetHere !== undefined) {
-				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoom } </p>;
+				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoomName } </p>;
+			} else if (props.songWarps[thisRoomId]) {
+				return <p> { "WARP USING " + CFG.warps[props.songWarps[thisRoomId]] + " TO " + thisRoomName } </p>
 			} else {
-				return <p> { "START AT " + thisRoom } </p>;
+				return <p> { "START AT " + thisRoomName } </p>;
 			}
 		})
 	} </div>;
@@ -59,7 +62,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		<div> {
 			props.paths.length ? props.paths
 			                          .slice(0, Math.min(props.paths.length, maxPaths))
-			                          .map(path => <Path path={path} />)
+			                          .map(path => <Path path={path} songWarps={props.songWarps} />)
 			                   : Path({ path: [] })
 		} </div>
 	</>;

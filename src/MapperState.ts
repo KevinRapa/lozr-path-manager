@@ -6,25 +6,17 @@ export interface MapperState {
 	unlinkedDoors: Record<string, string>
 }
 
-export function validateFromTo(from: string|undefined, to: string|undefined): boolean
-{
-	if (!from || !to) {
-		console.log(`Both selections must be defined [${from}, ${to}]`);
-		return false;
-	} else if (from === to) {
-		console.log("FROM and TO cannot be the same");
-		return false;
-	}
-
-	return true;
-}
-
 export function getUpdatedState(fromTo: string[2][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
 	for (let pair of fromTo) {
-		if (!validateFromTo(pair[0], pair[1])) {
+		if (!pair[0] || !pair[1]) {
+			console.log(`Both selections must be defined [${pair}]`);
+			continue;
+		}
+		if (pair[0] === pair[1]) {
+			console.log(`FROM and TO cannot be the same ${pair}`);
 			continue;
 		}
 
