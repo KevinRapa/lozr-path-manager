@@ -160,8 +160,12 @@ export function Mapper()
 		              onClick={findFunction}
 		              buttonTitle={"FIND"}
 		/>
-		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>SAVE</button>
-		<button onClick={()=>loadJson(setMapperState)}>LOAD</button>
+		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
+			{"SAVE"}
+		</button>
+		<button onClick={()=>loadJson(setMapperState)}>
+			{"LOAD"}
+		</button>
 		<PathDisplay paths={foundPaths} songWarps={mapperState.additionalBegin} />
 	</>;
 }
