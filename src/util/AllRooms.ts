@@ -401,8 +401,8 @@ export const CFG = {
 	child_only: [
 		"SPWN-C",
 
-		"OWL-LH",
-		"OWL-DMT",
+		"LH/OWL-LH",
+		"DMT/OWL-DMT",
 
 		// Buildings in market
 		"M/M-BB",
