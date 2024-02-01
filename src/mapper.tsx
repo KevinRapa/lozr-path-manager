@@ -154,10 +154,8 @@ export function Mapper()
 	};
 
 	// Exclude rooms that shouldn't be known about, like "Kakariko Village Backyard"
-	let selectableRoomMap: Record<string, string> = Object.fromEntries(
-		_.keys(_.omit(mapperState.roomToDoors, CFG.no_add))
-		 .map(roomId => [roomId, CFG.areas[roomId]])
-	);
+	let selectableRoomMap: Record<string, string> =
+		_.pick(CFG.areas, _.keys(_.omit(mapperState.roomToDoors, CFG.no_add)));
 
 	console.log("Rendering: ");
 	console.log(mapperState);
