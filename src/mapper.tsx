@@ -1,22 +1,23 @@
 import React from 'react';
+import {CFG} from './util/AllRooms';
 import {useState,useRef} from 'react';
-import {CFG} from './AllRooms.js';
-import {PathDisplay} from './components/PathDisplay.tsx';
-import {FromToModule} from './components/FromToModule.tsx';
-import {AdultChildButtons,LinkState} from './components/AdultChildButtons.tsx';
-import {findAllPaths, separatePathTree} from './util/FindAllPaths.ts';
-import {loadJson, saveJson} from './util/io.ts';
+import {PathDisplay} from './components/PathDisplay';
+import {FromToModule} from './components/FromToModule';
+import {AdultChildButtons,LinkState} from './components/AdultChildButtons';
+import {findAllPaths, separatePathTree} from './util/FindAllPaths';
+import {loadJson, saveJson} from './util/io';
 import _ from 'lodash';
 
 export interface MapperState {
 	roomToDoors: Record<string, string[]>
 	doorToDoor: Record<string, string>
 	unlinkedDoors: Record<string, string>
-	unlinkedDoors: Record<string, string>
+	unlinkedWarps: Record<string, string>
+	unlinkedOwls: Record<string, string>
 	additionalBegin: Record<string, string>
 }
 
-function getUpdatedDoors(fromTo: string[2][], oldState: MapperState)
+function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
@@ -54,7 +55,7 @@ function getUpdatedDoors(fromTo: string[2][], oldState: MapperState)
 	return newState;
 }
 
-function getUpdatedWarps(fromTo: string[2][], oldState: MapperState)
+function getUpdatedWarps(fromTo: [string, string][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
@@ -73,15 +74,18 @@ function getUpdatedWarps(fromTo: string[2][], oldState: MapperState)
 
 export function Mapper()
 {
+	console.log("CFG IS");
+	console.log(CFG);
 	const [mapperState, setMapperState] = useState<MapperState>(
 	    getUpdatedDoors(CFG.auto_add,
 	                    {
 	                        unlinkedDoors: CFG.doors,
 	                        unlinkedWarps: CFG.warps,
+				unlinkedOwls: CFG.owls,
 	                        roomToDoors: {},
 	                        doorToDoor: {},
 	                        additionalBegin: {}
-	                    })
+	                    } as MapperState)
 	);
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 	const linkState = useRef<LinkState>("CHILD");
@@ -93,6 +97,10 @@ export function Mapper()
 	const linkWarpFunction = (fromId: string, toId: string) => {
 		setMapperState(getUpdatedWarps([[fromId, toId]], mapperState));
 	};
+
+	const linkOwlFunction = (fromId: string, toId: string) => {
+		console.log(`${fromId} to ${toId}`);
+	}
 
 	const findFunction = (fromId:string, toId:string) => {
 		let isChild: boolean = linkState.current === "CHILD";
@@ -143,7 +151,12 @@ export function Mapper()
 
 	return <>
 		<AdultChildButtons initialState={linkState.current}
-		                   onChange={(state:string)=>{linkState.current=state}}
+		                   onChange={(state:LinkState)=>{linkState.current=state}}
+		/>
+		<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
+		              idToNameMapTo={CFG.areas}
+		              onClick={linkOwlFunction}
+		              buttonTitle={"LINK OWL"}
 		/>
 		<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
 		              idToNameMapTo={CFG.areas}

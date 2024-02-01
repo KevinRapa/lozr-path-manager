@@ -1,4 +1,4 @@
-import {CFG} from '../AllRooms.js';
+import {CFG} from '../util/AllRooms';
 
 export interface RoomNode {
 	roomName: string;
@@ -10,9 +10,9 @@ function _findAllPaths(visited: Set<string>,
                        isChild: boolean,
                        roomToDoors: Record<string, string[]>,
                        doorToDoor: Record<string, string>,
-                       doorToGetHere: string,
+                       doorToGetHere: string|null,
                        start: string,
-                       end: string): RoomNode
+                       end: string): RoomNode|null
 {
 	let roomNode: RoomNode|null = null;
 
@@ -44,7 +44,7 @@ function _findAllPaths(visited: Set<string>,
 				continue;  // Door exists only in the age Link isn't
 			}
 
-			let nextRoom: RoomNode =
+			let nextRoom: RoomNode|null =
 			    _findAllPaths(visited, isChild, roomToDoors, doorToDoor,
 			                  fromDoorId, idOfNextRoom, end);
 
@@ -66,7 +66,7 @@ export function findAllPaths(roomToDoors: Record<string, string[]>,
                              doorToDoor: Record<string, string>,
                              start: string,
                              end: string,
-                             isChild: boolean): RoomNode
+                             isChild: boolean): RoomNode|null
 {
 	return _findAllPaths(new Set(), isChild, roomToDoors, doorToDoor, null, start, end);
 }

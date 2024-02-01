@@ -4,12 +4,12 @@ export function loadJson(callback: (data: any) => void)
 	let input = document.createElement('input');
 
 	input.type = 'file';
-	input.onchange = (e) => {
+	input.onchange = (e: any) => {
 		let file = e.target.files[0];
 		let reader = new FileReader();
 
 		reader.readAsText(file, 'UTF-8');
-		reader.onload = (e): void => {
+		reader.onload = (e: any): void => {
 			callback(JSON.parse(e.target.result));
 		};
 	};

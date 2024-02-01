@@ -1,5 +1,6 @@
+import React from 'react';
 import {useState} from 'react';
-import {CFG} from '../AllRooms.js';
+import {CFG} from '../util/AllRooms';
 
 interface PathDisplayProps {
 	paths: string[][],
@@ -19,7 +20,7 @@ function Path(props: PathProps): JSX.Element
 
 	return <div> {
 		props.path.map((pair: string): JSX.Element => {
-			let splitPair: string[2] = pair.split(',');
+			let splitPair: string[] = pair.split(',');
 			let toGetHere: string|undefined = CFG.doors[splitPair[0]];
 			let thisRoomId: string = splitPair[1];
 			let thisRoomName: string = CFG.areas[thisRoomId];
@@ -63,7 +64,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 			props.paths.length ? props.paths
 			                          .slice(0, Math.min(props.paths.length, maxPaths))
 			                          .map(path => <Path path={path} songWarps={props.songWarps} />)
-			                   : Path({ path: [] })
+			                   : Path({ path: [], songWarps: props.songWarps } as PathProps) 
 		} </div>
 	</>;
 }

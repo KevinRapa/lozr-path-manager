@@ -116,7 +116,8 @@ export const CFG = {
 		"DMT-GFF": "Great Fairy Fountain (Magic Meter)",
 		"CG-GFF-A": "Great Fairy Fountain (Double Defense)",
 		"ZF-GFF": "Great Fairy Fountain (Farore's Wind)",
-	},
+	} as Record<string, string>,
+
 	doors: {
 		"M-BB/M": "Market - Bombchu Bowling Exit",
 		"KV-CC/KV": "Kakariko Village - Exit from Hole in Impa's House",
@@ -356,11 +357,13 @@ export const CFG = {
 		"ZR/HF": "Zora's River - Hyrule Field",
 		"ZR/LW": "Zora's River - Warp to Lost Woods",
 		"ZR/ZD": "Zora's River - Zora's Domain"
-	},
+	} as Record<string, string>,
+
 	auto_add: [
 		["KV/KVB", "KVB/KV"],
 		["GV/LH", "LH/GV"],
-	],
+	] as [string, string][],
+
 	adult_only: [
 		"SPWN-A",
 
@@ -384,7 +387,8 @@ export const CFG = {
 		"LH/LH-WT",     // Water
 		// TODO Shadow temple entrance?
 		// TODO the one way across gerudo valley bridge
-	],
+	] as string[],
+
 	child_only: [
 		"SPWN-C",
 
@@ -418,14 +422,17 @@ export const CFG = {
 		// TODO: Graves in graveyard?
 		// "ZD/ZD-G": TODO
 		// "ZR/ZR-G-S": TODO
-	],
+	] as string[],
+
 	one_way: [
 		"GV/LH",
 		"GU/GL",
-	],
+	] as string[],
+
 	no_add: [
 		"KVB",
-	],
+	] as string[],
+
 	warps: {
 		"OC-POL": "Prelude of Light",
 		"OC-MOF": "Minuet of Forest",
@@ -435,5 +442,10 @@ export const CFG = {
 		"OC-ROS": "Requiem of Spirit",
 		"SPWN-A": "Adult Spawn",
 		"SPWN-C": "Child Spawn",
-	}
+	} as Record<string, string>,
+
+	owls: {
+		"OWL-LH": "Lake Hylia Owl Flight",
+		"OWL-DMT": "Death Mountain Summit Owl Flight",
+	} as Record<string, string>
 };

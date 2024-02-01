@@ -1,6 +1,7 @@
+import React from 'react';
 import {useState} from 'react';
 
-type LinkState = "ADULT"|"CHILD";
+export type LinkState = "ADULT"|"CHILD";
 
 interface AdultChildButtonsProps {
 	initialState: LinkState,
@@ -11,12 +12,12 @@ export function AdultChildButtons(props: AdultChildButtonsProps)
 {
 	const [state, setState] = useState<LinkState>(props.initialState);
 
-	const onChange = (e) => {
+	const onChange = (e: any) => {
 		setState(e.target.value);
 		props.onChange(e.target.value);
 	};
 
-	const RadioButton = (props: { name: string }): JSX.element => {
+	const RadioButton = (props: { name: string }): JSX.Element => {
 		return <label>
 			{props.name}
 			<input type="radio" name="time" value={props.name}

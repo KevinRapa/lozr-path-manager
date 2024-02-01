@@ -1,4 +1,5 @@
-import {DropDown} from './DropDown.tsx';
+import React from 'react';
+import {DropDown} from './DropDown';
 import {useRef} from 'react';
 
 interface FromToModuleProps {
@@ -23,7 +24,10 @@ export function FromToModule(props: FromToModuleProps)
 	};
 	const onClick = () => {
 		console.log(`FromToModule ${props.buttonTitle}, ${fromLoc.current}, ${toLoc.current}`);
-		props.onClick(fromLoc.current, toLoc.current);
+
+		if (fromLoc.current && toLoc.current) {
+			props.onClick(fromLoc.current, toLoc.current);
+		}
 	};
 
 	return <>
