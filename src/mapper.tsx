@@ -153,14 +153,10 @@ export function Mapper()
 		setFoundPaths(allPaths);
 	};
 
-	const getSelectableRooms = () => {
-		// Exclude rooms that shouldn't be known about, like "Kakariko Village Backyard"
-		return [..._.keys(mapperState.roomToDoors)
-		            .filter(room => !CFG.no_add.includes(room))];
-	};
-
+	// Exclude rooms that shouldn't be known about, like "Kakariko Village Backyard"
 	let selectableRoomMap: Record<string, string> = Object.fromEntries(
-		getSelectableRooms().map(roomId => [roomId, CFG.areas[roomId]])
+		_.keys(_.omit(mapperState.roomToDoors, CFG.no_add))
+		 .map(roomId => [roomId, CFG.areas[roomId]])
 	);
 
 	console.log("Rendering: ");
