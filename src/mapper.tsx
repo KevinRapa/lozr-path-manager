@@ -90,7 +90,7 @@ export function Mapper()
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 	const linkState = useRef<LinkState>("CHILD");
 
-	const linkFunction = (fromId:string, toId:string) => {
+	const linkFunction = (fromId: string, toId: string) => {
 		setMapperState(getUpdatedDoors([[fromId, toId]], mapperState));
 	};
 
@@ -100,6 +100,23 @@ export function Mapper()
 
 	const linkOwlFunction = (fromId: string, toId: string) => {
 		console.log(`${fromId} to ${toId}`);
+
+		let newState: MapperState = _.cloneDeep(mapperState);
+		let owlDoorId: string = fromId + "/" + toId;
+		let recvDoor: string = toId + "/" + fromId;
+
+		delete newState.unlinkedOwls[fromId];
+		
+		if (!newState.roomToDoors[fromId]) {
+			newState.roomToDoors[fromId] = [];
+		}
+		if (!newState.roomToDoors[toId]) {
+			newState.roomToDoors[toId] = [];
+		}
+		newState.roomToDoors[fromId].push(owlDoorId);
+		newState.doorToDoor[owlDoorId] = recvDoor;
+
+		setMapperState(newState);
 	}
 
 	const findFunction = (fromId:string, toId:string) => {
@@ -154,12 +171,12 @@ export function Mapper()
 		                   onChange={(state:LinkState)=>{linkState.current=state}}
 		/>
 		<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
-		              idToNameMapTo={CFG.areas}
+		              idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 		              onClick={linkOwlFunction}
 		              buttonTitle={"LINK OWL"}
 		/>
 		<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
-		              idToNameMapTo={CFG.areas}
+		              idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 		              onClick={linkWarpFunction}
 		              buttonTitle={"LINK WARP"}
 		/>

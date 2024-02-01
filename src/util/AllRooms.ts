@@ -116,6 +116,9 @@ export const CFG = {
 		"DMT-GFF": "Great Fairy Fountain (Magic Meter)",
 		"CG-GFF-A": "Great Fairy Fountain (Double Defense)",
 		"ZF-GFF": "Great Fairy Fountain (Farore's Wind)",
+
+		"OWL-LH": "Owl Lake Hylia",
+		"OWL-DMT": "Death Mountain Trail Owl",
 	} as Record<string, string>,
 
 	doors: {
@@ -356,12 +359,18 @@ export const CFG = {
 		"ZF/ZD": "Zora's Fountain - Zora's Domain",
 		"ZR/HF": "Zora's River - Hyrule Field",
 		"ZR/LW": "Zora's River - Warp to Lost Woods",
-		"ZR/ZD": "Zora's River - Zora's Domain"
+		"ZR/ZD": "Zora's River - Zora's Domain",
+
+		"LH/OWL-LH": "Owl Warp in Lake Hylia",
+		"DMT/OWL-DMT": "Owl Warp in Lake Hylia",
+
 	} as Record<string, string>,
 
 	auto_add: [
 		["KV/KVB", "KVB/KV"],
 		["GV/LH", "LH/GV"],
+		["LH/OWL-LH", "OWL-LH/LH"],
+		["DMT/OWL-DMT", "OWL-DMT/DMT"],
 	] as [string, string][],
 
 	adult_only: [
@@ -391,6 +400,9 @@ export const CFG = {
 
 	child_only: [
 		"SPWN-C",
+
+		"OWL-LH",
+		"OWL-DMT",
 
 		// Buildings in market
 		"M/M-BB",
@@ -427,10 +439,14 @@ export const CFG = {
 	one_way: [
 		"GV/LH",
 		"GU/GL",
+		"LH/OWL-LH",
+		"DMT/OWL-DMT",
 	] as string[],
 
 	no_add: [
 		"KVB",
+		"OWL-LH",
+		"OWL-DMT",
 	] as string[],
 
 	warps: {
@@ -446,6 +462,6 @@ export const CFG = {
 
 	owls: {
 		"OWL-LH": "Lake Hylia Owl Flight",
-		"OWL-DMT": "Death Mountain Summit Owl Flight",
+		"OWL-DMT": "Death Mountain Trail Owl Flight",
 	} as Record<string, string>
 };

@@ -25,7 +25,11 @@ function Path(props: PathProps): JSX.Element
 			let thisRoomId: string = splitPair[1];
 			let thisRoomName: string = CFG.areas[thisRoomId];
 
-			if (toGetHere !== undefined) {
+			if (CFG.owls[thisRoomId]) {
+				return <p> { "TAKE " + toGetHere } </p>;
+			} else if (CFG.owls[splitPair[0].split('/')[0]]) {
+				return <p> { "FLY TO " + thisRoomName } </p>;
+			} else if (toGetHere !== undefined) {
 				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoomName } </p>;
 			} else if (props.songWarps[thisRoomId]) {
 				return <p> { "WARP USING " + CFG.warps[props.songWarps[thisRoomId]] + " TO " + thisRoomName } </p>
