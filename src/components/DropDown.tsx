@@ -1,4 +1,5 @@
 import React from 'react';
+import {useEffect,useState} from 'react';
 
 interface DropDownProps {
 	idToNameMap: Record<string, string>;
@@ -15,17 +16,24 @@ function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): [string, 
 
 export function DropDown(props: DropDownProps)
 {
-	const onChange = (e: any) => {
-		console.log(`Clicked ${e.target.value}`);
-		props.onChange(e.target.value);
-	};
+	const [currentSelection,setCurrentSelection] = useState<string>("");
+
+	useEffect(() => {
+		if (currentSelection.length) {
+			console.log(`Clicked ${currentSelection}`);
+			props.onChange(currentSelection);
+		}
+	}, [currentSelection]);
 
 	let dropDownElems: [string, string][] = convertIdsToIdNamePairs(props.idToNameMap);
 
-	return <select onChange={onChange}> {
-		dropDownElems.map((s: [string, string]): JSX.Element => {
-			return <option key={s[0]} value={s[0]}>{s[1]}</option>;
-		})
-	} </select>;
+	return <select onChange={e => setCurrentSelection(e.target.value)}>
+		<option key="" value="">{"Make a selection..."}</option>
+		{
+			dropDownElems.map((s: [string, string]): JSX.Element => {
+				return <option key={s[0]} value={s[0]}>{s[1]}</option>;
+			})
+		}
+	</select>;
 }
 
