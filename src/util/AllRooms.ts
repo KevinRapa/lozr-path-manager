@@ -382,18 +382,9 @@ export const CFG = {
 		// Castle Grounds
 		"CG/CG-GFF-A",  // GFF
 
-		// Gerudo Training Grounds Entrance
-		"GF/GF-GTG",
-
 		"GV/GV-CT",    // Carpenter's Tent Entrance
 		"GV/GV-G-FS",  // Grotto behind Carpenter's Tent
 		"GL/GL-G-D",   // Dampe's grave
-
-		// Temple Entrances
-		"SFM/SFM-FOT",  // Forest
-		"LH/LH-WT",     // Water
-		// TODO Shadow temple entrance?
-		// TODO the one way across gerudo valley bridge
 	] as string[],
 
 	child_only: [
@@ -425,9 +416,6 @@ export const CFG = {
 		
 		// Castle Grounds
 		"CG/CG-GFF-C",  // GFF
-
-		// BOTW Entrance
-		"KV/BOTW-T",
 	] as string[],
 
 	one_way: [
