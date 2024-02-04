@@ -52,11 +52,16 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		}
 	};
 
-	props.paths.sort((p1: string[], p2: string[]) => {
-		return p1.length - p2.length;
-	});
+	let allPaths: JSX.Element|JSX.Element[] = (() => {
+		if (props.paths.length) {
+			return props.paths.sort((p1, p2) => p1.length - p2.length)
+			                  .slice(0, Math.min(props.paths.length, maxPaths))
+			                  .map(path => <Path path={path} songWarps={props.songWarps} />)
+		} else {
+			return <Path path={[]} songWarps={props.songWarps} />
+		}
+	})();
 
-	// TODO: Messy
 	return <> 
 		<label>
 			{"Max results:"}
@@ -65,10 +70,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 				  onChange={e => trySetMaxPaths(e.target.value)} />
 		</label>
 		<div> {
-			props.paths.length ? props.paths
-			                          .slice(0, Math.min(props.paths.length, maxPaths))
-			                          .map(path => <Path path={path} songWarps={props.songWarps} />)
-			                   : Path({ path: [], songWarps: props.songWarps } as PathProps) 
+			allPaths
 		} </div>
 	</>;
 }
