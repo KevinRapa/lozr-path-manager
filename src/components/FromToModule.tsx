@@ -16,17 +16,19 @@ export function FromToModule(props: FromToModuleProps)
 
 	const fromChange = (entry: string) => {
 		fromLoc.current = entry;
-		console.log(`Setting FROM to ${entry}`);
 	};
 	const toChange = (entry: string) => {
 		toLoc.current = entry;
-		console.log(`Setting TO to ${entry}`);
 	};
 	const onClick = () => {
-		console.log(`FromToModule ${props.buttonTitle}, ${fromLoc.current}, ${toLoc.current}`);
+		console.log(`FromToModule ${props.buttonTitle}, clicked \"${fromLoc.current}\" => \"${toLoc.current}\"`);
 
 		if (fromLoc.current && toLoc.current) {
 			props.onClick(fromLoc.current, toLoc.current);
+			fromLoc.current = null;
+			toLoc.current = null;
+		} else {
+			console.log("Cannot do");
 		}
 	};
 
