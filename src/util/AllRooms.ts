@@ -289,7 +289,7 @@ export const CFG = {
 		"KF/KF-KIAH": "Kokiri Forest - Know-it-all House Entrance",
 		"KF/KF-LH": "Kokiri Forest - Link's House Entrance",
 		"KF/KF-MH": "Kokiri Forest - Mido's House Entrance",
-		"KF/KF-SH": "Kokiri Forest - Kokiri Forest Shop Entrance",
+		"KF/KF-SH": "Kokiri Forest - Shop Entrance",
 		"KF/KF-SAH": "Kokiri Forest - Saria's House Entrance",
 		"KF/KF-DT": "Kokiri Forest - Deku Tree Entrance",
 		"KF/LW": "Kokiri Forest - Lost Woods",
