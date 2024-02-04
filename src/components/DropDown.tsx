@@ -16,7 +16,7 @@ function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): [string, 
 
 export function DropDown(props: DropDownProps)
 {
-	const [currentSelection,setCurrentSelection] = useState<string>("");
+	const [currentSelection, setCurrentSelection] = useState<string>("");
 
 	useEffect(() => {
 		props.onChange(currentSelection);

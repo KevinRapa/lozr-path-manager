@@ -11,20 +11,20 @@ interface FromToModuleProps {
 
 export function FromToModule(props: FromToModuleProps)
 {
-	const fromLoc = useRef<string|null>(null);
-	const toLoc = useRef<string|null>(null);
+	const fromId = useRef<string|null>(null);
+	const toId = useRef<string|null>(null);
 
-	const fromChange = (entry: string) => {
-		fromLoc.current = entry;
+	const fromChange = (id: string) => {
+		fromId.current = id;
 	};
-	const toChange = (entry: string) => {
-		toLoc.current = entry;
+	const toChange = (id: string) => {
+		toId.current = id;
 	};
 	const onClick = () => {
-		if (fromLoc.current && toLoc.current) {
-			props.onClick([fromLoc.current, toLoc.current]);
-			fromLoc.current = null;
-			toLoc.current = null;
+		if (fromId.current && toId.current) {
+			props.onClick([fromId.current, toId.current]);
+			fromId.current = null;
+			toId.current = null;
 		}
 	};
 
