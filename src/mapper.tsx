@@ -1,6 +1,6 @@
 import React from 'react';
 import {CFG} from './util/AllRooms';
-import {useState,useRef,useEffect} from 'react';
+import {useState,useEffect} from 'react';
 import {PathDisplay} from './components/PathDisplay';
 import {FromToModule} from './components/FromToModule';
 import {AdultChildButtons,LinkState} from './components/AdultChildButtons';
@@ -89,30 +89,30 @@ export function Mapper()
 	const [linkState, setLinkState] = useState<LinkState>("CHILD");
 	const [fromTo, setFromTo] = useState<[string, string]|null>(null);
 
-	const linkFunction = (_fromTo: [string, string]) => {
-		setMapperState(getUpdatedDoors([_fromTo], mapperState));
+	const linkFunction = (pair: [string, string]) => {
+		setMapperState(getUpdatedDoors([pair], mapperState));
 	};
 
-	const linkWarpFunction = (_fromTo: [string, string]) => {
-		setMapperState(getUpdatedWarps([_fromTo], mapperState));
+	const linkWarpFunction = (pair: [string, string]) => {
+		setMapperState(getUpdatedWarps([pair], mapperState));
 	};
 
-	const linkOwlFunction = (_fromTo: [string, string]) => {
-		console.log("link Owl " + String(_fromTo));
+	const linkOwlFunction = (pair: [string, string]) => {
+		console.log("link Owl " + String(pair));
 
 		let newState: MapperState = _.cloneDeep(mapperState);
-		let owlDoorId: string = _fromTo.join("/");
-		let recvDoor: string = _fromTo.reverse().join("/");
+		let owlDoorId: string = pair.join("/");
+		let recvDoor: string = pair.reverse().join("/");
 
-		delete newState.unlinkedOwls[_fromTo[0]];
+		delete newState.unlinkedOwls[pair[0]];
 		
-		if (!newState.roomToDoors[_fromTo[0]]) {
-			newState.roomToDoors[_fromTo[0]] = [];
+		if (!newState.roomToDoors[pair[0]]) {
+			newState.roomToDoors[pair[0]] = [];
 		}
-		if (!newState.roomToDoors[_fromTo[1]]) {
-			newState.roomToDoors[_fromTo[1]] = [];
+		if (!newState.roomToDoors[pair[1]]) {
+			newState.roomToDoors[pair[1]] = [];
 		}
-		newState.roomToDoors[_fromTo[0]].push(owlDoorId);
+		newState.roomToDoors[pair[0]].push(owlDoorId);
 		newState.doorToDoor[owlDoorId] = recvDoor;
 
 		setMapperState(newState);
