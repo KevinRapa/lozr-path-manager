@@ -74,8 +74,6 @@ function getUpdatedWarps(fromTo: [string, string][], oldState: MapperState)
 
 export function Mapper()
 {
-	console.log("CFG IS");
-	console.log(CFG);
 	const [mapperState, setMapperState] = useState<MapperState>(
 	    getUpdatedDoors(CFG.auto_add,
 	                    {
