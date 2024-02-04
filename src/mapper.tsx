@@ -89,30 +89,30 @@ export function Mapper()
 	const [linkState, setLinkState] = useState<LinkState>("CHILD");
 	const [fromTo, setFromTo] = useState<[string, string]|null>(null);
 
-	const linkFunction = (fromId: string, toId: string) => {
-		setMapperState(getUpdatedDoors([[fromId, toId]], mapperState));
+	const linkFunction = (fromTo: [string, string]) => {
+		setMapperState(getUpdatedDoors([fromTo], mapperState));
 	};
 
-	const linkWarpFunction = (fromId: string, toId: string) => {
-		setMapperState(getUpdatedWarps([[fromId, toId]], mapperState));
+	const linkWarpFunction = (fromTo: [string, string]) => {
+		setMapperState(getUpdatedWarps([fromTo], mapperState));
 	};
 
-	const linkOwlFunction = (fromId: string, toId: string) => {
-		console.log(`${fromId} to ${toId}`);
+	const linkOwlFunction = (fromTo: [string, string]) => {
+		console.log("link Owl " + String(fromTo));
 
 		let newState: MapperState = _.cloneDeep(mapperState);
-		let owlDoorId: string = fromId + "/" + toId;
-		let recvDoor: string = toId + "/" + fromId;
+		let owlDoorId: string = fromTo.join("/");
+		let recvDoor: string = fromTo.reverse().join("/");
 
-		delete newState.unlinkedOwls[fromId];
+		delete newState.unlinkedOwls[fromTo[0]];
 		
-		if (!newState.roomToDoors[fromId]) {
-			newState.roomToDoors[fromId] = [];
+		if (!newState.roomToDoors[fromTo[0]]) {
+			newState.roomToDoors[fromTo[0]] = [];
 		}
-		if (!newState.roomToDoors[toId]) {
-			newState.roomToDoors[toId] = [];
+		if (!newState.roomToDoors[fromTo[1]]) {
+			newState.roomToDoors[fromTo[1]] = [];
 		}
-		newState.roomToDoors[fromId].push(owlDoorId);
+		newState.roomToDoors[fromTo[0]].push(owlDoorId);
 		newState.doorToDoor[owlDoorId] = recvDoor;
 
 		setMapperState(newState);
@@ -123,11 +123,8 @@ export function Mapper()
 			return;
 		}
 
-		let fromRoom: string = fromTo[0];
-		let toRoom: string = fromTo[1];
-
 		let isChild: boolean = linkState === "CHILD";
-		let allStarts: string[] = [fromRoom].concat(
+		let allStarts: string[] = [fromTo[0]].concat(
 			_.keys(mapperState.additionalBegin)
 		         .filter((roomId: string) => {
 				let warpMethod: string = mapperState.additionalBegin[roomId];
@@ -140,7 +137,7 @@ export function Mapper()
 		);
 		let allPaths: string[][] = [];
 
-		console.log(`Find from any ${allStarts} to ${toRoom}`);
+		console.log(`Find from any ${allStarts} to ${fromTo[1]}`);
 
 		for (let startId of allStarts) {
 			if (!startId) {
@@ -149,7 +146,7 @@ export function Mapper()
 
 			let foundPaths: string[][] = separatePathTree(findAllPaths(mapperState.roomToDoors,
 			                                              mapperState.doorToDoor,
-			                                              startId, toRoom, isChild));
+			                                              startId, fromTo[1], isChild));
 			allPaths.push(...foundPaths);
 		}
 
@@ -157,10 +154,6 @@ export function Mapper()
 		console.log(allPaths);
 		setFoundPaths(allPaths);
 	};
-
-	const findButtonHandler = (fromId: string, toId: string) => {
-		setFromTo([fromId, toId]);
-	}
 
 	useEffect(findFunction, [linkState, fromTo]);
 
@@ -192,7 +185,7 @@ export function Mapper()
 		/>
 		<FromToModule idToNameMapFrom={selectableRoomMap}
 		              idToNameMapTo={selectableRoomMap}
-		              onClick={findButtonHandler}
+		              onClick={setFromTo}
 		              buttonTitle={"FIND"}
 		/>
 		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>

@@ -5,7 +5,7 @@ import {useRef} from 'react';
 interface FromToModuleProps {
 	idToNameMapFrom: Record<string, string>
 	idToNameMapTo: Record<string, string>
-	onClick: (fromLoc: string, toLoc: string) => void
+	onClick: (fromTo: [string, string]) => void
 	buttonTitle: string
 }
 
@@ -21,14 +21,10 @@ export function FromToModule(props: FromToModuleProps)
 		toLoc.current = entry;
 	};
 	const onClick = () => {
-		console.log(`FromToModule ${props.buttonTitle}, clicked \"${fromLoc.current}\" => \"${toLoc.current}\"`);
-
 		if (fromLoc.current && toLoc.current) {
-			props.onClick(fromLoc.current, toLoc.current);
+			props.onClick([fromLoc.current, toLoc.current]);
 			fromLoc.current = null;
 			toLoc.current = null;
-		} else {
-			console.log("Cannot do");
 		}
 	};
 
