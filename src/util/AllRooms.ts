@@ -59,7 +59,6 @@ export const CFG = {
 		"M-TCG": "Market Treasure Chest Game",
 		"M": "Market",
 		"ME-GH": "Guard House",
-		"ME-HOP": "House of Poe",
 		"ME": "Market Entrance",
 		"SFM-FOT": "Forest Temple",
 		"SFM": "Sacred Forest Meadow",
@@ -210,7 +209,6 @@ export const CFG = {
 		"DMT-GFF/DMT": "Great Fairy Fountain Exit (Magic Meter)",
 		"CG-GFF-A/CG": "Great Fairy Fountain Exit (Double Defense)",
 		"ZF-GFF/ZF": "Great Fairy Fountain Exit (Farore's Wind)",
-		"ME-HOP/ME": "Market Entrance - House of Poe Exit",
 		"KV-HOS/KV": "Kakariko Village - House of Skulltula Exit",
 		"KF-HOT/KF": "Kokiri Forest - House of Twins Exit ",
 		"KV-IM/KV": "Kakariko Village - Impa's House Exit",
@@ -339,7 +337,6 @@ export const CFG = {
 		"M/CG": "Market - Castle Grounds",
 		"M/ME": "Market - Market Entrance",
 		"M/TOTC": "Market - Temple of Time Courtyard",
-		"ME/ME-HOP": "Market Entrance - House of Poe Entrance",  // TODO: go to different places?
 		"ME/ME-GH": "Market Entrance - Guard House Entrance",
 		"ME/HF": "Market Entrance - Hyrule Field",
 		"ME/M": "Market Entrance - Market",
