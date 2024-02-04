@@ -171,10 +171,10 @@ export const CFG = {
 		"DMC/DMC-G-U": "Death Mountain Crater Grotto Entrance, Upper",
 		"DM/DMT-G-C": "Death Mountain Trail Grotto Entrance, Cow",
 		"DM/DMT-G-S": "Death Mountain Trail Grotto Entrance, Ring of Rocks",
-		"GL/GL-G-D": "Graveyard Grotto Entrance, Dampe's Grave",
-		"GL/GL-G-HP": "Graveyard Grotto Entrance, Single ReDead",
-		"GL/GL-G-RF": "Graveyard Grotto Entrance, Royal Family Tomb",
-		"GL/GL-G-S": "Graveyard Grotto Entrance, Chest and Fairy Fountain",
+		"GL/GL-G-D": "Graveyard Grave Entrance, Dampe's Grave",
+		"GL/GL-G-HP": "Graveyard Grave Entrance, Back row, 4th from right",
+		"GL/GL-G-RF": "Graveyard Grave Entrance, Royal Family Tomb",
+		"GL/GL-G-S": "Graveyard Grave Entrance, Front row, 2nd from left",
 		"GC/GC-G": "Goron City Grotto Entrance",
 		"GF/GF-G": "Gerudo Fortress Grotto Entrance",
 		"GV/GV-G-FS": "Gerudo Valley Grotto Entrance, Behind Tent",
@@ -387,6 +387,7 @@ export const CFG = {
 
 		"GV/GV-CT",    // Carpenter's Tent Entrance
 		"GV/GV-G-FS",  // Grotto behind Carpenter's Tent
+		"GL/GL-G-D",   // Dampe's grave
 
 		// Temple Entrances
 		"SFM/SFM-FOT",  // Forest
@@ -427,10 +428,6 @@ export const CFG = {
 
 		// BOTW Entrance
 		"KV/BOTW-T",
-
-		// TODO: Graves in graveyard?
-		// "ZD/ZD-G": TODO
-		// "ZR/ZR-G-S": TODO
 	] as string[],
 
 	one_way: [
