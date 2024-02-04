@@ -8,7 +8,7 @@ export const CFG = {
 		"DMT-DC": "Dodongo's Cavern",
 		"DMT": "Death Mountain Trail",
 		"G-DH": "Dampe's Hut",
-		"G-SHT": "Shadow Temple",
+		"GU-SHT": "Shadow Temple",
 		"GL": "Graveyard - Lower",
 		"GU": "Graveyard - Upper",
 		"GC-SH": "Goron City Shop",
