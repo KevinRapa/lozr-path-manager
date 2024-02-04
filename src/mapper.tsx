@@ -89,30 +89,30 @@ export function Mapper()
 	const [linkState, setLinkState] = useState<LinkState>("CHILD");
 	const [fromTo, setFromTo] = useState<[string, string]|null>(null);
 
-	const linkFunction = (fromTo: [string, string]) => {
-		setMapperState(getUpdatedDoors([fromTo], mapperState));
+	const linkFunction = (_fromTo: [string, string]) => {
+		setMapperState(getUpdatedDoors([_fromTo], mapperState));
 	};
 
-	const linkWarpFunction = (fromTo: [string, string]) => {
-		setMapperState(getUpdatedWarps([fromTo], mapperState));
+	const linkWarpFunction = (_fromTo: [string, string]) => {
+		setMapperState(getUpdatedWarps([_fromTo], mapperState));
 	};
 
-	const linkOwlFunction = (fromTo: [string, string]) => {
-		console.log("link Owl " + String(fromTo));
+	const linkOwlFunction = (_fromTo: [string, string]) => {
+		console.log("link Owl " + String(_fromTo));
 
 		let newState: MapperState = _.cloneDeep(mapperState);
-		let owlDoorId: string = fromTo.join("/");
-		let recvDoor: string = fromTo.reverse().join("/");
+		let owlDoorId: string = _fromTo.join("/");
+		let recvDoor: string = _fromTo.reverse().join("/");
 
-		delete newState.unlinkedOwls[fromTo[0]];
+		delete newState.unlinkedOwls[_fromTo[0]];
 		
-		if (!newState.roomToDoors[fromTo[0]]) {
-			newState.roomToDoors[fromTo[0]] = [];
+		if (!newState.roomToDoors[_fromTo[0]]) {
+			newState.roomToDoors[_fromTo[0]] = [];
 		}
-		if (!newState.roomToDoors[fromTo[1]]) {
-			newState.roomToDoors[fromTo[1]] = [];
+		if (!newState.roomToDoors[_fromTo[1]]) {
+			newState.roomToDoors[_fromTo[1]] = [];
 		}
-		newState.roomToDoors[fromTo[0]].push(owlDoorId);
+		newState.roomToDoors[_fromTo[0]].push(owlDoorId);
 		newState.doorToDoor[owlDoorId] = recvDoor;
 
 		setMapperState(newState);
