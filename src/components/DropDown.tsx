@@ -4,6 +4,7 @@ import {useEffect,useState} from 'react';
 interface DropDownProps {
 	idToNameMap: Record<string, string>;
 	onChange: (selectedId: string) => void;
+	title: string;
 }
 
 function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): [string, string][]
@@ -22,13 +23,16 @@ export function DropDown(props: DropDownProps)
 		props.onChange(currentSelection);
 	}, [currentSelection]);
 
-	return <select onChange={e => setCurrentSelection(e.target.value)}>
-		<option key="" value="">{"Make a selection..."}</option>
-		{
-			convertIdsToIdNamePairs(props.idToNameMap).map((s: [string, string]): JSX.Element => {
-				return <option key={s[0]} value={s[0]}>{s[1]}</option>;
-			})
-		}
-	</select>;
+	return <>
+		<span>{props.title}</span>
+		<select onChange={e => setCurrentSelection(e.target.value)}>
+			<option key="" value="">{"Make a selection..."}</option>
+			{
+				convertIdsToIdNamePairs(props.idToNameMap).map((s: [string, string]): JSX.Element => {
+					return <option key={s[0]} value={s[0]}>{s[1]}</option>;
+				})
+			}
+		</select>
+	</>
 }
 

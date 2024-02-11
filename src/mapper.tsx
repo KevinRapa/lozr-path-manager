@@ -171,22 +171,26 @@ export function Mapper()
 		<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
 		              idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 		              onClick={linkOwlFunction}
-		              buttonTitle={"LINK OWL"}
+		              buttonTitle={"Link"}
+		              title={"Owls"}
 		/>
 		<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
 		              idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 		              onClick={linkWarpFunction}
-		              buttonTitle={"LINK WARP"}
+		              buttonTitle={"Link"}
+		              title={"Songs & Spawns"}
 		/>
 		<FromToModule idToNameMapFrom={mapperState.unlinkedDoors}
 		              idToNameMapTo={mapperState.unlinkedDoors}
 		              onClick={linkFunction}
-		              buttonTitle={"LINK"}
+		              buttonTitle={"Link"}
+		              title={"Doors"}
 		/>
 		<FromToModule idToNameMapFrom={selectableRoomMap}
 		              idToNameMapTo={selectableRoomMap}
 		              onClick={setFromTo}
-		              buttonTitle={"FIND"}
+		              buttonTitle={"Find"}
+		              title={"Rooms"}
 		/>
 		<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
 			{"SAVE"}

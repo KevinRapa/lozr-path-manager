@@ -7,6 +7,7 @@ interface FromToModuleProps {
 	idToNameMapTo: Record<string, string>
 	onClick: (fromTo: [string, string]) => void
 	buttonTitle: string
+	title: string
 }
 
 export function FromToModule(props: FromToModuleProps)
@@ -29,13 +30,14 @@ export function FromToModule(props: FromToModuleProps)
 	};
 
 	return <>
-		<span>{"From:"}</span>
+		<div>{props.title}</div>
 		<DropDown idToNameMap={props.idToNameMapFrom}
 		          onChange={fromChange}
+		          title={"Froms:"}
 		/>
-		<span>{"To:"}</span>
 		<DropDown idToNameMap={props.idToNameMapTo}
 		          onChange={toChange}
+		          title={"To:"}
 		/>
 		<button onClick={onClick}>
 			{props.buttonTitle}
