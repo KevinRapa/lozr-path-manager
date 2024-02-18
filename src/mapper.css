@@ -1,0 +1,13 @@
+.grid-container {
+	display: grid;
+	grid-template-columns: 1 1;
+	column-gap: 20px;
+}
+
+#grid-left {
+	grid-column-start: 1;
+}
+
+#grid-right {
+	grid-column-start: 2;
+}

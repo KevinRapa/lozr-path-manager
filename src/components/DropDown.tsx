@@ -1,6 +1,8 @@
 import React from 'react';
 import {useEffect,useState} from 'react';
 
+import './DropDown.css';
+
 interface DropDownProps {
 	idToNameMap: Record<string, string>;
 	onChange: (selectedId: string) => void;
@@ -24,9 +26,9 @@ export function DropDown(props: DropDownProps)
 		props.onChange(currentSelection);
 	}, [currentSelection]);
 
-	return <div className={props.className}>
-		<span>{props.title}</span>
-		<select onChange={e => setCurrentSelection(e.target.value)}>
+	return <div className={props.className + " dropdown-container"}>
+		<span className="dropdown-title">{props.title}</span>
+		<select className="dropdown" onChange={e => setCurrentSelection(e.target.value)}>
 			<option key="" value="">{"Make a selection..."}</option>
 			{
 				convertIdsToIdNamePairs(props.idToNameMap).map((s: [string, string]): JSX.Element => {

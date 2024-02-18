@@ -2,6 +2,8 @@ import React from 'react';
 import {useState} from 'react';
 import {CFG} from '../util/AllRooms';
 
+import './PathDisplay.css';
+
 interface PathDisplayProps {
 	paths: string[][],
 	songWarps: Record<string, string>
@@ -62,7 +64,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		}
 	})();
 
-	return <> 
+	return <div className="pathdisplay-container"> 
 		<label>
 			{"Max results:"}
 			<textarea rows={1} cols={2}
@@ -72,5 +74,5 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		<div> {
 			allPaths
 		} </div>
-	</>;
+	</div>;
 }

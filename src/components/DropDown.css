@@ -1,0 +1,13 @@
+.dropdown-container {
+	margin: 5px;
+}
+
+.dropdown-title {
+	font-size: 12pt;
+}
+
+.dropdown {
+	margin: 5px;
+	border-radius: 1000px;
+	background-color: dimgray;
+}

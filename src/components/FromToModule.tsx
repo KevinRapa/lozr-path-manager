@@ -2,6 +2,8 @@ import React from 'react';
 import {DropDown} from './DropDown';
 import {useRef} from 'react';
 
+import './FromToModule.css';
+
 interface FromToModuleProps {
 	idToNameMapFrom: Record<string, string>
 	idToNameMapTo: Record<string, string>
@@ -29,8 +31,8 @@ export function FromToModule(props: FromToModuleProps)
 		}
 	};
 
-	return <>
-		<div>{props.title}</div>
+	return <div className="from-to-container">
+		<div className="from-to-title">{props.title}</div>
 		<DropDown className="from-to-dropdown"
 		          idToNameMap={props.idToNameMapFrom}
 		          onChange={fromChange}
@@ -44,5 +46,5 @@ export function FromToModule(props: FromToModuleProps)
 		<button onClick={onClick}>
 			{props.buttonTitle}
 		</button>
-	</>;
+	</div>;
 }
