@@ -5,6 +5,7 @@ interface DropDownProps {
 	idToNameMap: Record<string, string>;
 	onChange: (selectedId: string) => void;
 	title: string;
+	className: string;
 }
 
 function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): [string, string][]
@@ -23,7 +24,7 @@ export function DropDown(props: DropDownProps)
 		props.onChange(currentSelection);
 	}, [currentSelection]);
 
-	return <>
+	return <div className={props.className}>
 		<span>{props.title}</span>
 		<select onChange={e => setCurrentSelection(e.target.value)}>
 			<option key="" value="">{"Make a selection..."}</option>
@@ -33,6 +34,6 @@ export function DropDown(props: DropDownProps)
 				})
 			}
 		</select>
-	</>
+	</div>
 }
 

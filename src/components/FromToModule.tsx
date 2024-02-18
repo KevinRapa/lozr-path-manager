@@ -31,11 +31,13 @@ export function FromToModule(props: FromToModuleProps)
 
 	return <>
 		<div>{props.title}</div>
-		<DropDown idToNameMap={props.idToNameMapFrom}
+		<DropDown className="from-to-dropdown"
+		          idToNameMap={props.idToNameMapFrom}
 		          onChange={fromChange}
 		          title={"From:"}
 		/>
-		<DropDown idToNameMap={props.idToNameMapTo}
+		<DropDown className="from-to-dropdown"
+		          idToNameMap={props.idToNameMapTo}
 		          onChange={toChange}
 		          title={"To:"}
 		/>
