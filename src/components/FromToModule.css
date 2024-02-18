@@ -3,7 +3,30 @@
 	display: block;
 }
 
+.from-to-title {
+	grid-column-start: 1;
+	grid-row-start: 1;
+}
+
+.from-to-dropdown-top {
+	grid-column-start: 1;
+	grid-row-start: 2;
+}
+
+.from-to-dropdown-bottom {
+	grid-column-start: 1;
+	grid-row-start: 3;
+}
+
+.from-to-button {
+	grid-column-start: 2;
+	grid-row: 1 / span 3;
+}
+
 .from-to-container {
+	display: grid;
+	gap: 3px;
+	grid-template: auto auto auto / auto auto;
 	background-color: darkslategrey;
 	margin: 5px;
 }

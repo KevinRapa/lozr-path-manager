@@ -33,17 +33,17 @@ export function FromToModule(props: FromToModuleProps)
 
 	return <div className="from-to-container">
 		<div className="from-to-title">{props.title}</div>
-		<DropDown className="from-to-dropdown"
+		<DropDown className="from-to-dropdown from-to-dropdown-top"
 		          idToNameMap={props.idToNameMapFrom}
 		          onChange={fromChange}
 		          title={"From:"}
 		/>
-		<DropDown className="from-to-dropdown"
+		<DropDown className="from-to-dropdown from-to-dropdown-bottom"
 		          idToNameMap={props.idToNameMapTo}
 		          onChange={toChange}
 		          title={"To:"}
 		/>
-		<button onClick={onClick}>
+		<button className="from-to-button" onClick={onClick}>
 			{props.buttonTitle}
 		</button>
 	</div>;
