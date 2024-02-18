@@ -1,4 +1,6 @@
 
 .pathdisplay-container {
-	width: 40em;
+	border: solid;
+	border-color: black;
+	border-width: 2px;
 }

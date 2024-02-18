@@ -3,17 +3,9 @@
 	display: block;
 }
 
-@font-face {
-  font-family: 'hylia-serif';
-  src: local('MyFont'), url(../fonts/hylia-serif.otf) format('opentype');
-  /* other formats include: 'woff2', 'truetype, 'opentype',
-                            'embedded-opentype', and 'svg' */
-}
-
 .from-to-title {
 	grid-column-start: 1;
 	grid-row-start: 1;
-	font-family: 'hylia-serif';
 }
 
 .from-to-dropdown-top {
@@ -31,6 +23,8 @@
 	grid-row: 1 / span 3;
 	margin: 10px;
 	background-color: dimgrey;
+	font-size: 14pt;
+	color: white;
 }
 
 .from-to-container {

@@ -6,6 +6,7 @@ export type LinkState = "ADULT"|"CHILD";
 interface AdultChildButtonsProps {
 	initialState: LinkState,
 	onChange: (state: LinkState) => void
+	className: string
 }
 
 export function AdultChildButtons(props: AdultChildButtonsProps)
@@ -27,8 +28,8 @@ export function AdultChildButtons(props: AdultChildButtonsProps)
 		</label>
 	}
 
-	return <>
+	return <div className={props.className}>
 		<RadioButton name={"CHILD"} />
 		<RadioButton name={"ADULT"} />
-	</>
+	</div>
 }

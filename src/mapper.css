@@ -1,12 +1,21 @@
 .grid-container {
 	display: grid;
-	column-gap: 20px;
+	column-gap: 10px;
+	grid-template: auto auto / 40% 60%;
+	width: 80%;
+}
+
+#grid-top {
+	grid-row-start: 1;
+	grid-column: 1 / span 2;
 }
 
 #grid-left {
+	grid-row-start: 2;
 	grid-column-start: 1;
 }
 
 #grid-right {
+	grid-row-start: 2;
 	grid-column-start: 2;
 }

@@ -1,0 +1,10 @@
+
+@font-face {
+  font-family: 'hylia-serif';
+  src: local('MyFont'), url(./fonts/hylia-serif.otf) format('opentype');
+}
+
+.title {
+	font-family: 'hylia-serif';
+}
+

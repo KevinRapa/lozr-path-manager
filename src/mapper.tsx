@@ -9,6 +9,7 @@ import {loadJson, saveJson} from './util/io';
 import _ from 'lodash';
 
 import './mapper.css';
+import './common.css';
 
 export interface MapperState {
 	roomToDoors: Record<string, string[]>
@@ -167,6 +168,9 @@ export function Mapper()
 	console.log(mapperState);
 
 	return <div className="grid-container">
+		<div className="grid-item title" id="grid-top">
+			LOZR Path Finder
+		</div>
 		<div className="grid-item" id="grid-left">
 			<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
 				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
@@ -186,7 +190,8 @@ export function Mapper()
 				      buttonTitle={"Link"}
 				      title={"Doors"}
 			/>
-			<AdultChildButtons initialState={linkState}
+			<AdultChildButtons className="title"
+			                   initialState={linkState}
 					   onChange={setLinkState}
 			/>
 			<FromToModule idToNameMapFrom={selectableRoomMap}
@@ -196,10 +201,10 @@ export function Mapper()
 				      title={"Rooms"}
 			/>
 			<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
-				{"SAVE"}
+				<div className="title">{"SAVE"}</div>
 			</button>
 			<button onClick={()=>loadJson(setMapperState)}>
-				{"LOAD"}
+				<div className="title">{"LOAD"}</div>
 			</button>
 		</div>
 		<div className="grid-item" id="grid-right">
