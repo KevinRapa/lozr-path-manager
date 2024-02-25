@@ -24,16 +24,8 @@ function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
+	// pair is  assumed to contained two defined, non-null, and different values
 	for (let pair of fromTo) {
-		if (!pair[0] || !pair[1]) {
-			console.log(`Both selections must be defined [${pair}]`);
-			continue;
-		}
-		if (pair[0] === pair[1]) {
-			console.log(`FROM and TO cannot be the same ${pair}`);
-			continue;
-		}
-
 		delete newState.unlinkedDoors[pair[0]];
 		delete newState.unlinkedDoors[pair[1]];
 
@@ -175,18 +167,21 @@ export function Mapper()
 			<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
 				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 				      onClick={linkOwlFunction}
+				      onUnlink={(p:[string,string])=>console.log(p)}
 				      buttonTitle={"Link"}
 				      title={"Owls"}
 			/>
 			<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
 				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 				      onClick={linkWarpFunction}
+				      onUnlink={(p:[string,string])=>console.log(p)}
 				      buttonTitle={"Link"}
 				      title={"Songs & Spawns"}
 			/>
 			<FromToModule idToNameMapFrom={mapperState.unlinkedDoors}
 				      idToNameMapTo={mapperState.unlinkedDoors}
 				      onClick={linkFunction}
+				      onUnlink={(p:[string,string])=>console.log(p)}
 				      buttonTitle={"Link"}
 				      title={"Doors"}
 			/>

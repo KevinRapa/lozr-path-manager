@@ -8,19 +8,33 @@
 	grid-row-start: 1;
 }
 
-.from-to-dropdown-top {
+.from-to-dropdown-from {
 	grid-column-start: 1;
 	grid-row-start: 2;
 }
 
-.from-to-dropdown-bottom {
+.from-to-dropdown-to {
 	grid-column-start: 1;
 	grid-row-start: 3;
+}
+
+.from-to-dropdown-unlink {
+	grid-column-start: 1;
+	grid-row-start: 4;
 }
 
 .from-to-button {
 	grid-column-start: 2;
 	grid-row: 1 / span 3;
+	margin: 10px;
+	background-color: dimgrey;
+	font-size: 14pt;
+	color: white;
+}
+
+.unlink-button {
+	grid-column-start: 2;
+	grid-row: 4 / span 1;
 	margin: 10px;
 	background-color: dimgrey;
 	font-size: 14pt;
