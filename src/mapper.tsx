@@ -50,6 +50,32 @@ function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
 	return newState;
 }
 
+function unlinkDoors(pair: [string, string], oldState: MapperState)
+{
+	let newState: MapperState = _.cloneDeep(oldState);
+	let fromRoomId:string = pair[0].split("/")[0];
+	let toRoomId:string = pair[1].split("/")[0];
+
+	if (!CFG.one_way.includes(pair[0])) {
+		delete newState.doorToDoor[pair[1]];
+		_.pull(newState.roomToDoors[toRoomId], pair[1]);
+		if (newState.roomToDoors[toRoomId].length === 0) {
+			delete newState.roomToDoors[toRoomId];
+		}
+	}
+
+	delete newState.doorToDoor[pair[0]];
+	_.pull(newState.roomToDoors[fromRoomId], pair[0]);
+	if (newState.roomToDoors[fromRoomId].length === 0) {
+		delete newState.roomToDoors[fromRoomId];
+	}
+
+	newState.unlinkedDoors[pair[1]] = CFG.doors[pair[1]];
+	newState.unlinkedDoors[pair[0]] = CFG.doors[pair[0]];
+
+	return newState;
+}
+
 export function Mapper()
 {
 	const [mapperState, setMapperState] = useState<MapperState>(
@@ -67,8 +93,12 @@ export function Mapper()
 	const [linkState, setLinkState] = useState<LinkState>("CHILD");
 	const [fromTo, setFromTo] = useState<[string, string]|null>(null);
 
-	const linkFunction = (pair: [string, string]) => {
+	const linkDoorFunction = (pair: [string, string]) => {
 		setMapperState(getUpdatedDoors([pair], mapperState));
+	};
+
+	const unlinkDoorFunction = (pair: [string, string]) => {
+		setMapperState(unlinkDoors(pair, mapperState));
 	};
 
 	const linkWarpFunction = (pair: [string, string]) => {
@@ -213,8 +243,8 @@ export function Mapper()
 			/>
 			<FromToModule idToNameMapFrom={mapperState.unlinkedDoors}
 				      idToNameMapTo={mapperState.unlinkedDoors}
-				      onClick={linkFunction}
-				      onUnlink={(p:[string,string])=>console.log(p)}
+				      onClick={linkDoorFunction}
+				      onUnlink={unlinkDoorFunction}
 				      buttonTitle={"Link"}
 				      title={"Doors"}
 			/>
