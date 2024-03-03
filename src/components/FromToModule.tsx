@@ -28,7 +28,6 @@ export function FromToModule(props: FromToModuleProps)
 		toId.current = id;
 	};
 	const onUnlinkSelect = (id: string) => {
-		console.log(`will unlink ${id}`);
 		let pair: [string, string] = ["", ""];
 		let split: string[] = id.split("=>");
 

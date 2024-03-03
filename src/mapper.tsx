@@ -50,23 +50,6 @@ function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
 	return newState;
 }
 
-function getUpdatedWarps(fromTo: [string, string][], oldState: MapperState)
-{
-	let newState: MapperState = _.cloneDeep(oldState);
-
-	for (let pair of fromTo) {
-		newState.additionalBegin[pair[1]] = pair[0];
-		delete newState.unlinkedWarps[pair[0]];
-
-		if (undefined === newState.roomToDoors[pair[1]]) {
-			// Do this show that warp destination shows up in 'find' drop-down
-			newState.roomToDoors[pair[1]] = [];
-		}
-	}
-
-	return newState;
-}
-
 export function Mapper()
 {
 	const [mapperState, setMapperState] = useState<MapperState>(
@@ -89,7 +72,33 @@ export function Mapper()
 	};
 
 	const linkWarpFunction = (pair: [string, string]) => {
-		setMapperState(getUpdatedWarps([pair], mapperState));
+		let newState: MapperState = _.cloneDeep(mapperState);
+
+		newState.additionalBegin[pair[0]] = pair[1];
+		delete newState.unlinkedWarps[pair[0]];
+
+		if (undefined === newState.roomToDoors[pair[1]]) {
+			// Do this show that warp destination shows up in 'find' drop-down
+			newState.roomToDoors[pair[1]] = [];
+		}
+
+		setMapperState(newState);
+	};
+
+	const unlinkWarpFunction = (pair: [string, string]) => {
+		let newState: MapperState = _.cloneDeep(mapperState);
+
+		if (newState.roomToDoors[pair[1]] === undefined) {
+			console.log("Error: this should not happen");
+		}
+		if (newState.roomToDoors[pair[1]].length === 0) {
+			delete newState.roomToDoors[pair[1]];
+		}
+
+		newState.unlinkedWarps[pair[0]] = CFG.warps[pair[0]];
+		delete newState.additionalBegin[pair[0]];
+
+		setMapperState(newState);
 	};
 
 	const linkOwlFunction = (pair: [string, string]) => {
@@ -145,15 +154,15 @@ export function Mapper()
 		let isChild: boolean = linkState === "CHILD";
 		let allStarts: string[] = [fromTo[0]].concat(
 			_.keys(mapperState.additionalBegin)
-		         .filter((roomId: string) => {
-				let warpMethod: string = mapperState.additionalBegin[roomId];
-
+			 .filter((warpId: string) => {
+				console.log("FILTER ", warpId);
 				// filter out child spawn if link is adult, and vice versa
 				// TODO: Differentiate between a warp start and a regular start
-				return !((isChild && CFG.adult_only.includes(warpMethod)) ||
-				        (!isChild && CFG.child_only.includes(warpMethod)))
-			})
+				return !((isChild && CFG.adult_only.includes(warpId)) ||
+				        (!isChild && CFG.child_only.includes(warpId)))
+			}).map((warpId: string) => mapperState.additionalBegin[warpId])
 		);
+
 		let allPaths: string[][] = [];
 
 		console.log(`Find from any ${allStarts} to ${fromTo[1]}`);
@@ -198,7 +207,7 @@ export function Mapper()
 			<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
 				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 				      onClick={linkWarpFunction}
-				      onUnlink={(p:[string,string])=>console.log(p)}
+				      onUnlink={unlinkWarpFunction}
 				      buttonTitle={"Link"}
 				      title={"Songs & Spawns"}
 			/>

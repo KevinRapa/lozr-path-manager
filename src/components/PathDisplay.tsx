@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import {CFG} from '../util/AllRooms';
+import _ from 'lodash';
 
 import './PathDisplay.css';
 
@@ -33,10 +34,15 @@ function Path(props: PathProps): JSX.Element
 				return <p> { "FLY TO " + thisRoomName } </p>;
 			} else if (toGetHere !== undefined) {
 				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoomName } </p>;
-			} else if (props.songWarps[thisRoomId]) {
-				return <p> { "WARP USING " + CFG.warps[props.songWarps[thisRoomId]] + " TO " + thisRoomName } </p>
 			} else {
-				return <p> { "START AT " + thisRoomName } </p>;
+				let warpId: string|undefined =
+				    _.findKey(props.songWarps, (roomId: string) => roomId === thisRoomId);
+
+				if (warpId !== undefined) {
+					return <p> { "WARP USING " + CFG.warps[warpId] + " TO " + thisRoomName } </p>
+				} else {
+					return <p> { "START AT " + thisRoomName } </p>;
+				}
 			}
 		})
 	} </div>;
