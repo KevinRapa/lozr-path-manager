@@ -79,7 +79,7 @@ export function FromToModule(props: FromToModuleProps)
 		          onChange={toChange}
 		          title={"To:"}
 		/>
-		<button className="from-to-button title" onClick={onClick}>
+		<button className="from-to-button link-button title" onClick={onClick}>
 			{props.buttonTitle}
 		</button>
 		{ props.onUnlink ? <>
@@ -88,7 +88,7 @@ export function FromToModule(props: FromToModuleProps)
 				  onChange={onUnlinkSelect}
 				  title={"Now linked:"}
 			/>
-			<button className="unlink-button title" onClick={onUnlink}>
+			<button className="from-to-button unlink-button title" onClick={onUnlink}>
 				{"UNLINK"}
 			</button>
 		  </> : <></> }
