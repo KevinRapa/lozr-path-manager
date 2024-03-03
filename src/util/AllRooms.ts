@@ -305,7 +305,7 @@ export const CFG = {
 		"KV/KV-W": "Kakariko V. - Windmill Entr.",
 		"KV/DMT": "Kakariko V. - Death Mountain Trail",
 		"KV/GL": "Kakariko V. - Graveyard Entr.",
-		"GU/GL": "Graveyard - Jump from Warp Pad",
+		"GU/GL": "Graveyard - Warp Pad Fence",
 		"KV/HF": "Kakariko V. - Hyrule Field",
 		"KV/KVB": "To Kakariko V. Backyard",
 		"KV/KV-SH-P": "Kakariko V. - Potion Shop Front Entr.",
@@ -368,6 +368,7 @@ export const CFG = {
 		["GV/LH", "LH/GV"],
 		["LH/OWL-LH", "OWL-LH/LH"],
 		["DMT/OWL-DMT", "OWL-DMT/DMT"],
+		["GU/GL", "GL/GU"]
 	] as [string, string][],
 
 	adult_only: [
