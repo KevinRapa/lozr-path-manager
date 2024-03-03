@@ -26,6 +26,11 @@ export function DropDown(props: DropDownProps)
 		props.onChange(currentSelection);
 	}, [currentSelection]);
 
+	useEffect(() => {
+		// This runs when a link or unlink is made.
+		setCurrentSelection("");
+	}, [props.idToNameMap]);
+
 	return <div className={props.className + " dropdown-container"}>
 		<span className="dropdown-title">{props.title}</span>
 		<select className="dropdown" onChange={e => setCurrentSelection(e.target.value)}>
