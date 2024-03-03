@@ -42,6 +42,7 @@ export function FromToModule(props: FromToModuleProps)
 	const onUnlink = () => {
 		if (toUnlink.current && props.onUnlink) {
 			props.onUnlink(toUnlink.current!);
+			delete linkedPairs.current[toUnlink.current.join("=>")];
 			toUnlink.current = null;
 		}
 	};

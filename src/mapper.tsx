@@ -97,7 +97,7 @@ export function Mapper()
 
 		let newState: MapperState = _.cloneDeep(mapperState);
 		let owlDoorId: string = pair.join("/");
-		let recvDoor: string = pair.reverse().join("/");
+		let recvDoor: string = [...pair].reverse().join("/");
 
 		delete newState.unlinkedOwls[pair[0]];
 		
@@ -111,7 +111,31 @@ export function Mapper()
 		newState.doorToDoor[owlDoorId] = recvDoor;
 
 		setMapperState(newState);
-	}
+	};
+
+	const unlinkOwlFunction =  (pair: [string, string]) => {
+		console.log("unlink Owl " + String(pair));
+
+		let newState: MapperState = _.cloneDeep(mapperState);
+		let owlDoorId: string = pair.join("/");
+		let recvDoor: string = [...pair].reverse().join("/");
+
+		delete newState.doorToDoor[owlDoorId];
+		console.log(newState.roomToDoors[pair[0]]);
+		_.pull(newState.roomToDoors[pair[0]], owlDoorId);
+		console.log(newState.roomToDoors[pair[0]]);
+
+		if (!newState.roomToDoors[pair[1]].length) {
+			delete newState.roomToDoors[pair[1]];
+		}
+		if (!newState.roomToDoors[pair[0]].length) {
+			delete newState.roomToDoors[pair[0]];
+		}
+
+		newState.unlinkedOwls[pair[0]] = CFG.owls[pair[0]];
+
+		setMapperState(newState);
+	};
 
 	const findFunction = () => {
 		if (!fromTo) {
@@ -167,7 +191,7 @@ export function Mapper()
 			<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
 				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
 				      onClick={linkOwlFunction}
-				      onUnlink={(p:[string,string])=>console.log(p)}
+				      onUnlink={unlinkOwlFunction}
 				      buttonTitle={"Link"}
 				      title={"Owls"}
 			/>
