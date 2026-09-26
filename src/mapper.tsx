@@ -3,13 +3,16 @@ import {CFG} from './util/AllRooms';
 import {useState,useEffect} from 'react';
 import {PathDisplay} from './components/PathDisplay';
 import {FromToModule} from './components/FromToModule';
-import {AdultChildButtons,LinkState} from './components/AdultChildButtons';
+import {RadioButtonPair} from './components/RadioButtonPair';
 import {findAllPaths, separatePathTree} from './util/FindAllPaths';
 import {loadJson, saveJson} from './util/io';
 import _ from 'lodash';
 
 import './mapper.css';
 import './common.css';
+
+type GlitchState = "GLITCHLESS"|"GLITCHES";
+type LinkState = "ADULT"|"CHILD";
 
 export interface MapperState {
 	roomToDoors: Record<string, string[]>
@@ -20,11 +23,11 @@ export interface MapperState {
 	additionalBegin: Record<string, string>
 }
 
-function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
+function linkDoors(fromTo: [string, string][], oldState: MapperState)
 {
 	let newState: MapperState = _.cloneDeep(oldState);
 
-	// pair is  assumed to contained two defined, non-null, and different values
+	// pair is assumed to contained two defined, non-null, and different values
 	for (let pair of fromTo) {
 		delete newState.unlinkedDoors[pair[0]];
 		delete newState.unlinkedDoors[pair[1]];
@@ -38,13 +41,11 @@ function getUpdatedDoors(fromTo: [string, string][], oldState: MapperState)
 		newState.roomToDoors[fromRoomId].push(pair[0]);
 		newState.doorToDoor[pair[0]] = pair[1];
 
-		if (!CFG.one_way.includes(pair[0])) {
-			if (!newState.roomToDoors[toRoomId]) {
-				newState.roomToDoors[toRoomId] = [];
-			}
-			newState.roomToDoors[toRoomId].push(pair[1]);
-			newState.doorToDoor[pair[1]] = pair[0];
+		if (!newState.roomToDoors[toRoomId]) {
+			newState.roomToDoors[toRoomId] = [];
 		}
+		newState.roomToDoors[toRoomId].push(pair[1]);
+		newState.doorToDoor[pair[1]] = pair[0];
 	}
 
 	return newState;
@@ -56,12 +57,10 @@ function unlinkDoors(pair: [string, string], oldState: MapperState)
 	let fromRoomId:string = pair[0].split("/")[0];
 	let toRoomId:string = pair[1].split("/")[0];
 
-	if (!CFG.one_way.includes(pair[0])) {
-		delete newState.doorToDoor[pair[1]];
-		_.pull(newState.roomToDoors[toRoomId], pair[1]);
-		if (newState.roomToDoors[toRoomId].length === 0) {
-			delete newState.roomToDoors[toRoomId];
-		}
+	delete newState.doorToDoor[pair[1]];
+	_.pull(newState.roomToDoors[toRoomId], pair[1]);
+	if (newState.roomToDoors[toRoomId].length === 0) {
+		delete newState.roomToDoors[toRoomId];
 	}
 
 	delete newState.doorToDoor[pair[0]];
@@ -79,22 +78,23 @@ function unlinkDoors(pair: [string, string], oldState: MapperState)
 export function Mapper()
 {
 	const [mapperState, setMapperState] = useState<MapperState>(
-	    getUpdatedDoors(CFG.auto_add,
-	                    {
-	                        unlinkedDoors: CFG.doors,
-	                        unlinkedWarps: CFG.warps,
-				unlinkedOwls: CFG.owls,
-	                        roomToDoors: {},
-	                        doorToDoor: {},
-	                        additionalBegin: {}
-	                    } as MapperState)
+	    linkDoors(CFG.auto_add,
+	              {
+	                  unlinkedDoors: CFG.doors,
+	                  unlinkedWarps: CFG.warps,
+		          unlinkedOwls: CFG.owls,
+	                  roomToDoors: {},
+	                  doorToDoor: {},
+	                  additionalBegin: {}
+	              } as MapperState)
 	);
 	const [foundPaths, setFoundPaths] = useState<string[][]>([]);
 	const [linkState, setLinkState] = useState<LinkState>("CHILD");
+	const [playModeState, setPlayModeState] = useState<GlitchState>("GLITCHLESS");
 	const [fromTo, setFromTo] = useState<[string, string]|null>(null);
 
 	const linkDoorFunction = (pair: [string, string]) => {
-		setMapperState(getUpdatedDoors([pair], mapperState));
+		setMapperState(linkDoors([pair], mapperState));
 	};
 
 	const unlinkDoorFunction = (pair: [string, string]) => {
@@ -182,6 +182,7 @@ export function Mapper()
 		}
 
 		let isChild: boolean = linkState === "CHILD";
+		let isGlitchless: boolean = playModeState === "GLITCHLESS";
 		let allStarts: string[] = [fromTo[0]].concat(
 			_.keys(mapperState.additionalBegin)
 			 .filter((warpId: string) => {
@@ -195,16 +196,18 @@ export function Mapper()
 
 		let allPaths: string[][] = [];
 
-		console.log(`Find from any ${allStarts} to ${fromTo[1]}`);
+		console.log(`Find from any of {${allStarts}} to ${fromTo[1]}`);
 
-		for (let startId of allStarts) {
+		for (let startId of new Set<string>(allStarts)) {
 			if (!startId) {
 				continue;
 			}
 
-			let foundPaths: string[][] = separatePathTree(findAllPaths(mapperState.roomToDoors,
-			                                              mapperState.doorToDoor,
-			                                              startId, fromTo[1], isChild));
+			let foundPaths: string[][] = separatePathTree(
+			    findAllPaths(mapperState.roomToDoors, mapperState.doorToDoor,
+			                 startId, fromTo[1], isChild, isGlitchless)
+			);
+
 			allPaths.push(...foundPaths);
 		}
 
@@ -213,7 +216,7 @@ export function Mapper()
 		setFoundPaths(allPaths);
 	};
 
-	useEffect(findFunction, [linkState, fromTo]);
+	useEffect(findFunction, [playModeState, linkState, fromTo]);
 
 	// Exclude rooms that shouldn't be known about, like "Kakariko Village Backyard"
 	let selectableRoomMap: Record<string, string> =
@@ -227,36 +230,46 @@ export function Mapper()
 			LOZR Path Finder
 		</div>
 		<div className="grid-item" id="grid-left">
-			<FromToModule idToNameMapFrom={mapperState.unlinkedOwls}
-				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
-				      onClick={linkOwlFunction}
-				      onUnlink={unlinkOwlFunction}
-				      buttonTitle={"Link"}
-				      title={"Owls"}
+			<FromToModule
+			    idToNameMapFrom={mapperState.unlinkedOwls}
+			    idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
+			    onClick={linkOwlFunction}
+			    onUnlink={unlinkOwlFunction}
+			    buttonTitle={"Link"}
+			    title={"Owls"}
 			/>
-			<FromToModule idToNameMapFrom={mapperState.unlinkedWarps}
-				      idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
-				      onClick={linkWarpFunction}
-				      onUnlink={unlinkWarpFunction}
-				      buttonTitle={"Link"}
-				      title={"Songs & Spawns"}
+			<FromToModule
+			    idToNameMapFrom={mapperState.unlinkedWarps}
+			    idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
+			    onClick={linkWarpFunction}
+			    onUnlink={unlinkWarpFunction}
+			    buttonTitle={"Link"}
+			    title={"Songs & Spawns"}
 			/>
-			<FromToModule idToNameMapFrom={mapperState.unlinkedDoors}
-				      idToNameMapTo={mapperState.unlinkedDoors}
-				      onClick={linkDoorFunction}
-				      onUnlink={unlinkDoorFunction}
-				      buttonTitle={"Link"}
-				      title={"Doors"}
+			<FromToModule
+			    idToNameMapFrom={mapperState.unlinkedDoors}
+			    idToNameMapTo={mapperState.unlinkedDoors}
+			    onClick={linkDoorFunction}
+			    onUnlink={unlinkDoorFunction}
+			    buttonTitle={"Link"}
+			    title={"Doors"}
 			/>
-			<AdultChildButtons className="title"
-			                   initialState={linkState}
-					   onChange={setLinkState}
+			<RadioButtonPair<LinkState>
+			    className="title"
+			    vals={["CHILD", "ADULT"]}
+			    onChange={setLinkState}
 			/>
-			<FromToModule idToNameMapFrom={selectableRoomMap}
-				      idToNameMapTo={selectableRoomMap}
-				      onClick={setFromTo}
-				      buttonTitle={"Find"}
-				      title={"Rooms"}
+			<RadioButtonPair<GlitchState>
+			    className="title"
+			    vals={["GLITCHLESS", "GLITCHES"]}
+			    onChange={setPlayModeState}
+			/>
+			<FromToModule
+			    idToNameMapFrom={selectableRoomMap}
+			    idToNameMapTo={selectableRoomMap}
+			    onClick={setFromTo}
+			    buttonTitle={"Find"}
+			    title={"Rooms"}
 			/>
 			<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
 				<div className="title">{"SAVE"}</div>

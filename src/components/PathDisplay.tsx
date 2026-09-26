@@ -21,12 +21,17 @@ function Path(props: PathProps): JSX.Element
 		return <div> { "No path found" } </div>;
 	}
 
-	return <div> {
+	return <div className=".path-display"> {
 		props.path.map((pair: string): JSX.Element => {
 			let splitPair: string[] = pair.split(',');
 			let toGetHere: string|undefined = CFG.doors[splitPair[0]];
 			let thisRoomId: string = splitPair[1];
 			let thisRoomName: string = CFG.areas[thisRoomId];
+
+			if (CFG.no_print_path.includes(splitPair[0])) {
+				console.log(`Not printing door ${toGetHere} because it's obvious`);
+				return <></>;
+			}
 
 			if (CFG.owls[thisRoomId]) {
 				return <p> { "TAKE " + toGetHere } </p>;

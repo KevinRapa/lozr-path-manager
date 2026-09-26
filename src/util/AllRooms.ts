@@ -305,7 +305,8 @@ export const CFG = {
 		"KV/KV-W": "Kakariko V. - Windmill Entr.",
 		"KV/DMT": "Kakariko V. - Death Mountain Trail",
 		"KV/GL": "Kakariko V. - Graveyard Entr.",
-		"GU/GL": "Graveyard - Warp Pad Fence",
+		"GU/GL": "Graveyard - Warp Pad",
+		"GL/GU": "Graveyard - Lower Half",
 		"KV/HF": "Kakariko V. - Hyrule Field",
 		"KV/KVB": "To Kakariko V. Backyard",
 		"KV/KV-SH-P": "Kakariko V. - Potion Shop Front Entr.",
@@ -360,16 +361,30 @@ export const CFG = {
 
 		"LH/OWL-LH": "Owl Warp in Lake Hylia",
 		"DMT/OWL-DMT": "Owl Warp in Lake Hylia",
-
 	} as Record<string, string>,
 
+	// Doors that should never print in the paths because it's obvious/implied
+	no_print_path: [
+		"KV/KVB",
+		"KVB/KV"
+	] as string[],
+
+	// User does not have to link these - linked by default. These represent logical divisions in areas that are really just one area.
+	// For example, kakariko village is one area, but the adult potion shop has two doors that both go here, so we treat kakariko village
+	// as two areas for simplicity
 	auto_add: [
 		["KV/KVB", "KVB/KV"],
-		["GV/LH", "LH/GV"],
 		["LH/OWL-LH", "OWL-LH/LH"],
 		["DMT/OWL-DMT", "OWL-DMT/DMT"],
 		["GU/GL", "GL/GU"]
 	] as [string, string][],
+
+	// Doors we can access as an adult with glitches/tricks
+	adult_only_exceptions_glitches: [
+		// Warp to/from zora's domain
+		"ZD/LH",
+		"LH/ZD",
+	] as string[],
 
 	adult_only: [
 		"SPWN-A",
@@ -378,7 +393,7 @@ export const CFG = {
 		"KV/KV-SG",     // Shooting Gallery
 		"KV/KV-SH-B",   // Bazaar
 		"KVB/KV-SH-P",  // Back entrance to potion shop
-		"KV-SH-P/KVB",  // Back exit  TODO: clip through?
+		"KV-SH-P/KVB",  // Back exit
 
 		// Castle Grounds
 		"CG/CG-GFF-A",  // GFF
@@ -386,6 +401,13 @@ export const CFG = {
 		"GV/GV-CT",    // Carpenter's Tent Entrance
 		"GV/GV-G-FS",  // Grotto behind Carpenter's Tent
 		"GL/GL-G-D",   // Dampe's grave
+	] as string[],
+
+	// Doors we can access as child with glitches/tricks
+	child_only_exceptions_glitches: [
+		"KV/KV-SH-B",   // Bazaar
+		"KVB/KV-SH-P",  // Back entrance to potion shop
+		"KV-SH-P/KVB",  // Back exit
 	] as string[],
 
 	child_only: [
@@ -417,6 +439,10 @@ export const CFG = {
 		
 		// Castle Grounds
 		"CG/CG-GFF-C",  // GFF
+	] as string[],
+
+	one_way_exception_glitches: [
+		"GU/GL",
 	] as string[],
 
 	one_way: [

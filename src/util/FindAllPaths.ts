@@ -8,6 +8,7 @@ export interface RoomNode {
 
 function _findAllPaths(visited: Set<string>,
                        isChild: boolean,
+                       isGlitchless: boolean,
                        roomToDoors: Record<string, string[]>,
                        doorToDoor: Record<string, string>,
                        doorToGetHere: string|null,
@@ -17,7 +18,7 @@ function _findAllPaths(visited: Set<string>,
 	let roomNode: RoomNode|null = null;
 
 	if (visited.has(start)) {
-		return roomNode;
+		return roomNode;  // We found the destination. Return
 	}
 
 	visited.add(start);
@@ -39,14 +40,35 @@ function _findAllPaths(visited: Set<string>,
 			let toDoorId: string = doorToDoor[fromDoorId];
 			let idOfNextRoom: string = toDoorId.split('/')[0];
 
-			if ((isChild && CFG.adult_only.includes(fromDoorId)) ||
-			    (!isChild && CFG.child_only.includes(fromDoorId))) {
-				continue;  // Door exists only in the age Link isn't
+			// Skip this door if it's one-way and we're glitchless, or we're playing with glitches
+			// and an exception isn't made for it
+			if (CFG.one_way.includes(toDoorId)) {
+				if (isGlitchless || !CFG.one_way_exception_glitches.includes(toDoorId)) {
+					console.log(`Not considering ${toDoorId} because it's one way`);
+					continue;
+				}
+			}
+
+			// Skip is it's an adult-only route, we're a child, and we're glitchless
+			// OR we are playing with glitches and an exception isn't made for it
+			if (isChild && CFG.adult_only.includes(fromDoorId)) {
+				if (isGlitchless || !CFG.child_only_exceptions_glitches.includes(fromDoorId)) {
+					console.log(`Not considering ${fromDoorId} because it's adult-only`);
+					continue;
+				}
+			}
+
+			// Same as above check but reverse ages
+			if (!isChild && CFG.child_only.includes(fromDoorId)) {
+				if (isGlitchless || !CFG.adult_only_exceptions_glitches.includes(fromDoorId)) {
+					console.log(`Not considering ${fromDoorId} because it's child-only`);
+					continue;
+				}
 			}
 
 			let nextRoom: RoomNode|null =
-			    _findAllPaths(visited, isChild, roomToDoors, doorToDoor,
-			                  fromDoorId, idOfNextRoom, end);
+			    _findAllPaths(visited, isChild, isGlitchless, roomToDoors,
+			                  doorToDoor, fromDoorId, idOfNextRoom, end);
 
 			if (nextRoom !== null) {
 				roomNode.nextRoomNodes.push(nextRoom);
@@ -66,9 +88,10 @@ export function findAllPaths(roomToDoors: Record<string, string[]>,
                              doorToDoor: Record<string, string>,
                              start: string,
                              end: string,
-                             isChild: boolean): RoomNode|null
+                             isChild: boolean,
+                             isGlitchless: boolean): RoomNode|null
 {
-	return _findAllPaths(new Set(), isChild, roomToDoors, doorToDoor, null, start, end);
+	return _findAllPaths(new Set(), isChild, isGlitchless, roomToDoors, doorToDoor, null, start, end);
 }
 
 
