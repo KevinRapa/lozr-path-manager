@@ -384,23 +384,35 @@ export const CFG = {
 		// Warp to/from zora's domain
 		"ZD/LH",
 		"LH/ZD",
+		"SFM/SFM-FOT",
+		"GU/GU-SHT",
 	] as string[],
+
+	// Lists routes within rooms that are only doable as adult. For example, normally haunted
+	// wasteland can only be traversed as adult.
+	adult_only_door_to_door: [
+		["HW/DC", "HW/GF"],  // Doors from one end of haunted wasteland to other
+		["GV/HF", "GV/GF"],  // Bridge across Gerudo Valley
+		["DMC/DMT", "DMC/DMC-FIT"],  // Death Mountain Crater Bridge
+		["DMC/DMC-GC", "DMC/DMC-FIT"],  // Death Mountain Crater Bridge
+//		["DMC/DMT", "DMC/DMC-GFF"],  TODO
+//		["DMC/DMT", "DMC/DMC-GC"],
+	] as [string, string][],
 
 	adult_only: [
 		"SPWN-A",
-
-		// Kakariko Village
 		"KV/KV-SG",     // Shooting Gallery
 		"KV/KV-SH-B",   // Bazaar
 		"KVB/KV-SH-P",  // Back entrance to potion shop
 		"KV-SH-P/KVB",  // Back exit
-
-		// Castle Grounds
 		"CG/CG-GFF-A",  // GFF
-
 		"GV/GV-CT",    // Carpenter's Tent Entrance
 		"GV/GV-G-FS",  // Grotto behind Carpenter's Tent
 		"GL/GL-G-D",   // Dampe's grave
+		"SFM/SFM-FOT",  // Entrance to forest temple
+		"GF/HW",  // Gate in Gerudo Fortress always closed as child
+		"HW/GF",
+		"GU/GU-SHT",  // Entrance to shadow temple
 	] as string[],
 
 	// Doors we can access as child with glitches/tricks
@@ -408,15 +420,18 @@ export const CFG = {
 		"KV/KV-SH-B",   // Bazaar
 		"KVB/KV-SH-P",  // Back entrance to potion shop
 		"KV-SH-P/KVB",  // Back exit
+		"KV/BOTW-T",  // Entrance to well
 	] as string[],
+
+	// Lists routes within rooms that are only doable as child
+	child_only_door_to_door: [
+		// Don't think there are any?
+	] as [string, string][],
 
 	child_only: [
 		"SPWN-C",
-
 		"LH/OWL-LH",
 		"DMT/OWL-DMT",
-
-		// Buildings in market
 		"M/M-BB",
 		"M/M-MGH",
 		"M/M-SG",
@@ -425,20 +440,13 @@ export const CFG = {
 		"M/M-SH-M",
 		"M/M-SH-P",
 		"M/M-TCG",
-
-		// Warp to/from zora's domain
 		"ZD/LH",
 		"LH/ZD",
-
-		// Entrance to Jaba Jaba's belly
 		"ZF/ZF-JJB",
-
-		// Grottos
-		"CG/CG-G",    // Castle grounds
-		"LLR/LLR-G",  // Lon Lon Ranch
-		
-		// Castle Grounds
-		"CG/CG-GFF-C",  // GFF
+		"CG/CG-G",
+		"LLR/LLR-G",
+		"CG/CG-GFF-C",
+		"KV/BOTW-T"
 	] as string[],
 
 	one_way_exception_glitches: [

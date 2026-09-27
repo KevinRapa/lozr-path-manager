@@ -66,9 +66,28 @@ function _findAllPaths(visited: Set<string>,
 				}
 			}
 
-			let nextRoom: RoomNode|null =
-			    _findAllPaths(visited, isChild, isGlitchless, roomToDoors,
-			                  doorToDoor, fromDoorId, idOfNextRoom, end);
+			// Check if within this room we can get from one door to the other as our current age
+			if (isGlitchless) {
+				const ourSideOfRoom = doorToGetHere ? doorToDoor[doorToGetHere] : null;
+				const otherSideOfRoom = doorToDoor[toDoorId];
+
+				const doorPairMatches = ([doorId1, doorId2]: [string, string]) => {
+					return (ourSideOfRoom === doorId1 && otherSideOfRoom === doorId2) ||
+					       (ourSideOfRoom === doorId2 && otherSideOfRoom === doorId1);
+				};
+
+				if (!isChild && !!CFG.child_only_door_to_door.find(doorPairMatches)) {
+					console.log(`Skipping iteration. Cannot reach from ${ourSideOfRoom} to ${otherSideOfRoom} as adult`);
+					continue
+				}
+
+				if (isChild && !!CFG.adult_only_door_to_door.find(doorPairMatches)) {
+					console.log(`Skipping iteration. Cannot reach from ${ourSideOfRoom} to ${otherSideOfRoom} as child.`);
+					continue
+				}
+			}
+
+			let nextRoom: RoomNode|null = _findAllPaths(visited, isChild, isGlitchless, roomToDoors, doorToDoor, fromDoorId, idOfNextRoom, end);
 
 			if (nextRoom !== null) {
 				roomNode.nextRoomNodes.push(nextRoom);
