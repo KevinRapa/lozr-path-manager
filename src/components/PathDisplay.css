@@ -1,13 +1,22 @@
 .path-display-container {
-    margin: 10px;
-    padding: 10px;
-    border-style: groove;
-    font-family: serif;
+	margin: 10px;
+	padding: 10px;
+	border-style: groove;
+	font-family: serif;
 }
 
 #max-results {
 }
 
 .path-display {
-    margin: 10px 0;
+	margin: 10px 0;
+	font-weight: bold;
+}
+
+.path-verb, .path-conj {
+	font-style: italic;
+}
+
+.path-door, .path-room {
+	color: darkmagenta;
 }

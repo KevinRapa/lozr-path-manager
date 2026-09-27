@@ -34,19 +34,37 @@ function Path(props: PathProps)
 			}
 
 			if (CFG.owls[thisRoomId]) {
-				return <p> { "TAKE " + toGetHere } </p>;
+				return <p>
+					<span className="path-verb">{"TAKE "}</span>
+					<span className="path-door">{toGetHere}</span>
+				</p>;
 			} else if (CFG.owls[splitPair[0].split('/')[0]]) {
-				return <p> { "FLY TO " + thisRoomName } </p>;
+				return <p>
+					<span className="path-verb">{"FLY TO "}</span>
+					<span className="path-room">{thisRoomName}</span>
+				</p>;
 			} else if (toGetHere !== undefined) {
-				return <p> { "GO THROUGH " + toGetHere + " TO " + thisRoomName } </p>;
+				return <p>
+					<span className="path-verb">{"GO THROUGH "}</span>
+					<span className="path-door">{toGetHere}</span>
+					<span className="path-conj">{" TO "}</span>
+					<span className="path-room">{thisRoomName}</span>
+				</p>;
 			} else {
-				let warpId: string|undefined =
-				    _.findKey(props.songWarps, (roomId: string) => roomId === thisRoomId);
+				let warpId: string|undefined = _.findKey(props.songWarps, (roomId: string) => roomId === thisRoomId);
 
 				if (warpId !== undefined) {
-					return <p> { "WARP USING " + CFG.warps[warpId] + " TO " + thisRoomName } </p>
+					return <p>
+						<span className="path-verb">{"WARP USING "}</span>
+						<span className="path-door">{CFG.warps[warpId]}</span>
+						<span className="path-conj">{" TO "}</span>
+						<span className="path-room">{thisRoomName}</span>
+					</p>
 				} else {
-					return <p> { "START AT " + thisRoomName } </p>;
+					return <p>
+						<span className="path-verb">{"START AT "}</span>
+						<span className="path-room">{thisRoomName}</span>
+					</p>;
 				}
 			}
 		})

@@ -413,6 +413,8 @@ export const CFG = {
 		"GF/HW",  // Gate in Gerudo Fortress always closed as child
 		"HW/GF",
 		"GU/GU-SHT",  // Entrance to shadow temple
+		"LH/LH-WT",  // Entrance to water temple
+		"ZF/ZF-IC",  // Ice cavern entrance
 	] as string[],
 
 	// Doors we can access as child with glitches/tricks
@@ -421,6 +423,12 @@ export const CFG = {
 		"KVB/KV-SH-P",  // Back entrance to potion shop
 		"KV-SH-P/KVB",  // Back exit
 		"KV/BOTW-T",  // Entrance to well
+		"SFM/SFM-FOT",  // Entrance to forest temple
+		"GF/HW",  // Gate in Gerudo Fortress always closed as child
+		"HW/GF",
+		"GU/GU-SHT",  // Entrance to shadow temple
+		"LH/LH-WT",  // Entrance to water temple
+		"ZF/ZF-IC",  // Ice cavern entrance
 	] as string[],
 
 	// Lists routes within rooms that are only doable as child
