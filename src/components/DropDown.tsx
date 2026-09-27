@@ -1,6 +1,5 @@
-import React from 'react';
 import {useEffect,useState} from 'react';
-import {Select} from 'react-select';
+import Select from 'react-select';
 
 import './DropDown.css';
 
@@ -11,7 +10,7 @@ interface DropDownProps {
 	className: string;
 }
 
-function convertIdsToIdNamePairs(idToNameMap: Record<string, string>): [string, string][]
+function convertToSortedPairs(idToNameMap: Record<string, string>): [string, string][]
 {
 	return Object.entries(idToNameMap)
 	             .sort((p1: [string, string], p2: [string, string]): number => {
@@ -28,23 +27,21 @@ export function DropDown(props: DropDownProps)
 	}, [currentSelection]);
 
 	useEffect(() => {
-		// This runs when a link or unlink is made.
 		setCurrentSelection("");
 	}, [props.idToNameMap]);
 
-	const options = convertIdsToIdNamePairs(props.idToNameMap).map((s: [string, string]) => {
-		return { value: s[0], label: s[1] };
-	});
+	const options = convertToSortedPairs(props.idToNameMap)
+	    .map((s: [string, string]) => ({ value: s[0], label: s[1] }));
 
 	return <div className={props.className + " dropdown-container"}>
 		<span className="dropdown-title">{props.title}</span>
 		<Select
 		    className="dropdown"
-		    onChange={setCurrentSelection}
+		    onChange={setCurrentSelection as any}
 		    isSearchable={true}
 		    value={currentSelection}
 		    placeholder={"Make a selection..."}
-		    options={options}
+		    options={options as any}
 		/>
 	</div>
 }

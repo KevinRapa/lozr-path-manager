@@ -1,6 +1,6 @@
-import React from 'react';
 import {DropDown} from './DropDown';
 import {useRef} from 'react';
+import React from 'react';
 
 import '../common.css';
 import './FromToModule.css';
@@ -14,7 +14,7 @@ interface FromToModuleProps {
 	title: string
 }
 
-export function FromToModule(props: FromToModuleProps)
+export function FromToModule(props: FromToModuleProps): React.JSX.Element
 {
 	const fromId = useRef<string|null>(null);
 	const toId = useRef<string|null>(null);

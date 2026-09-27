@@ -75,7 +75,7 @@ function unlinkDoors(pair: [string, string], oldState: MapperState)
 	return newState;
 }
 
-export function Mapper()
+export function Mapper(): React.JSX.Element
 {
 	const [mapperState, setMapperState] = useState<MapperState>(
 	    linkDoors(CFG.auto_add,
@@ -157,7 +157,6 @@ export function Mapper()
 
 		let newState: MapperState = _.cloneDeep(mapperState);
 		let owlDoorId: string = pair.join("/");
-		let recvDoor: string = [...pair].reverse().join("/");
 
 		delete newState.doorToDoor[owlDoorId];
 		console.log(newState.roomToDoors[pair[0]]);

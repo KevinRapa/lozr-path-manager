@@ -7,7 +7,7 @@ interface RadioButtonPairProps<T extends string> {
 	className: string
 }
 
-export function RadioButtonPair<T extends string>(props: RadioButtonPairProps<T>)
+export function RadioButtonPair<T extends string>(props: RadioButtonPairProps<T>): React.JSX.Element
 {
 	const [state, setState] = useState<T>(props.vals[0]);
 
@@ -16,7 +16,7 @@ export function RadioButtonPair<T extends string>(props: RadioButtonPairProps<T>
 		props.onChange(e.target.value);
 	};
 
-	const RadioButton = (props: { val: T, name: string }): JSX.Element => {
+	const RadioButton = (props: { val: T, name: string }) => {
 		return <label>
 			{props.val}
 			<input type="radio" name={props.name} value={props.val}

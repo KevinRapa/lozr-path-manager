@@ -1,5 +1,5 @@
-import React from 'react';
 import {useState} from 'react';
+import React from 'react';
 import {CFG} from '../util/AllRooms';
 import _ from 'lodash';
 
@@ -15,14 +15,14 @@ interface PathProps {
 	songWarps: Record<string, string>
 }
 
-function Path(props: PathProps): JSX.Element
+function Path(props: PathProps)
 {
 	if (props.path.length === 0) {
 		return <div> { "No path found" } </div>;
 	}
 
 	return <div className=".path-display"> {
-		props.path.map((pair: string): JSX.Element => {
+		props.path.map((pair: string): React.JSX.Element => {
 			let splitPair: string[] = pair.split(',');
 			let toGetHere: string|undefined = CFG.doors[splitPair[0]];
 			let thisRoomId: string = splitPair[1];
@@ -55,7 +55,7 @@ function Path(props: PathProps): JSX.Element
 
 const DIGIT_RE = /^\d+$/;
 
-export function PathDisplay(props: PathDisplayProps): JSX.Element
+export function PathDisplay(props: PathDisplayProps): React.JSX.Element
 {
 	const [maxPaths, setMaxPaths] = useState<number>(2);
 
@@ -65,7 +65,7 @@ export function PathDisplay(props: PathDisplayProps): JSX.Element
 		}
 	};
 
-	let allPaths: JSX.Element|JSX.Element[] = (() => {
+	let allPaths: React.JSX.Element|React.JSX.Element[] = (() => {
 		if (props.paths.length) {
 			return props.paths.sort((p1, p2) => p1.length - p2.length)
 			                  .slice(0, Math.min(props.paths.length, maxPaths))
