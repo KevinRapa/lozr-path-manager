@@ -6,6 +6,7 @@
 .from-to-title {
 	grid-column-start: 1;
 	grid-row-start: 1;
+	font-size: x-large;
 }
 
 .from-to-dropdown-from {
@@ -42,8 +43,11 @@
 
 .from-to-container {
 	display: grid;
+	min-width: 40em;
 	gap: 3px;
 	grid-template: auto auto auto / auto 100px;
 	background-color: darkslategrey;
-	margin: 5px;
+	color: white;
+	padding: 10px;
+	margin: 10px;
 }

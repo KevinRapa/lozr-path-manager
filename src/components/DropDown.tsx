@@ -20,28 +20,34 @@ function convertToSortedPairs(idToNameMap: Record<string, string>): [string, str
 
 export function DropDown(props: DropDownProps)
 {
-	const [currentSelection, setCurrentSelection] = useState<string>("");
+	const [currentSelectionId, setCurrentSelectionId] = useState<string>("");
+	const [currentSelectionLabel, setCurrentSelectionLabel] = useState<string>("");
 
 	useEffect(() => {
-		props.onChange(currentSelection);
-	}, [currentSelection]);
+		props.onChange(currentSelectionId);
+	}, [currentSelectionId]);
 
 	useEffect(() => {
-		setCurrentSelection("");
+		setCurrentSelectionId("");
 	}, [props.idToNameMap]);
 
 	const options = convertToSortedPairs(props.idToNameMap)
 	    .map((s: [string, string]) => ({ value: s[0], label: s[1] }));
 
+	const callback = (e: any) => {
+		setCurrentSelectionId(e.value);
+		setCurrentSelectionLabel(e.label);
+	};
+
 	return <div className={props.className + " dropdown-container"}>
 		<span className="dropdown-title">{props.title}</span>
 		<Select
-		    className="dropdown"
-		    onChange={setCurrentSelection as any}
-		    isSearchable={true}
-		    value={currentSelection}
-		    placeholder={"Make a selection..."}
-		    options={options as any}
+			className="dropdown"
+			onChange={callback}
+			isSearchable={true}
+			value={currentSelectionId}
+			placeholder={currentSelectionLabel}
+			options={options as any}
 		/>
 	</div>
 }

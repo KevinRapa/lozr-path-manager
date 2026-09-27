@@ -224,61 +224,74 @@ export function Mapper(): React.JSX.Element
 	console.log("Rendering: ");
 	console.log(mapperState);
 
-	return <div className="grid-container">
-		<div className="grid-item title" id="grid-top">
-			LOZR Path Finder
-		</div>
-		<div className="grid-item" id="grid-left">
-			<FromToModule
-			    idToNameMapFrom={mapperState.unlinkedOwls}
-			    idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
-			    onClick={linkOwlFunction}
-			    onUnlink={unlinkOwlFunction}
-			    buttonTitle={"Link"}
-			    title={"Owls"}
-			/>
-			<FromToModule
-			    idToNameMapFrom={mapperState.unlinkedWarps}
-			    idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
-			    onClick={linkWarpFunction}
-			    onUnlink={unlinkWarpFunction}
-			    buttonTitle={"Link"}
-			    title={"Songs & Spawns"}
-			/>
-			<FromToModule
-			    idToNameMapFrom={mapperState.unlinkedDoors}
-			    idToNameMapTo={mapperState.unlinkedDoors}
-			    onClick={linkDoorFunction}
-			    onUnlink={unlinkDoorFunction}
-			    buttonTitle={"Link"}
-			    title={"Doors"}
-			/>
-			<RadioButtonPair<LinkState>
-			    className="title"
-			    vals={["CHILD", "ADULT"]}
-			    onChange={setLinkState}
-			/>
-			<RadioButtonPair<GlitchState>
-			    className="title"
-			    vals={["GLITCHLESS", "GLITCHES"]}
-			    onChange={setPlayModeState}
-			/>
-			<FromToModule
-			    idToNameMapFrom={selectableRoomMap}
-			    idToNameMapTo={selectableRoomMap}
-			    onClick={setFromTo}
-			    buttonTitle={"Find"}
-			    title={"Rooms"}
-			/>
-			<button onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
-				<div className="title">{"SAVE"}</div>
-			</button>
-			<button onClick={()=>loadJson(setMapperState)}>
-				<div className="title">{"LOAD"}</div>
-			</button>
-		</div>
-		<div className="grid-item" id="grid-right">
-			<PathDisplay paths={foundPaths} songWarps={mapperState.additionalBegin} />
-		</div>
-	</div>;
+	return (<>
+        <div id="page-container" className="grid-container">
+            <div className="grid-item grid-top">
+                <h1 id="page-title" className="title">LOZR Path Finder</h1>
+            </div>
+            <div className="grid-container grid-item grid-left">
+                <div id="lozr-controls" className="grid-container grid-item grid-top">
+                    <div className="grid-item grid-left">
+                        <button className="save-load-btn" onClick={()=>saveJson(JSON.stringify(mapperState), 'lozr-cfg.json')}>
+                            <div className="title">{"Save"}</div>
+                        </button>
+                        <button className="save-load-btn" onClick={()=>loadJson(setMapperState)}>
+                            <div className="title">{"Load"}</div>
+                        </button>
+                    </div>
+                    <div className="grid-item grid-right">
+                        <RadioButtonPair<LinkState>
+                            className="title"
+                            vals={["CHILD", "ADULT"]}
+                            onChange={setLinkState}
+                        />
+                        <RadioButtonPair<GlitchState>
+                            className="title"
+                            vals={["GLITCHLESS", "GLITCHES"]}
+                            onChange={setPlayModeState}
+                        />
+                    </div>
+                </div>
+                <div id="link-controls" className="grid-item grid-bottom">
+                    <FromToModule
+                        idToNameMapFrom={mapperState.unlinkedOwls}
+                        idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
+                        onClick={linkOwlFunction}
+                        onUnlink={unlinkOwlFunction}
+                        execButtonTitle={"Link"}
+                        unexecButtonTitle={"Unlink"}
+                        title={"Owls"}
+                    />
+                    <FromToModule
+                        idToNameMapFrom={mapperState.unlinkedWarps}
+                        idToNameMapTo={_.omit(CFG.areas, CFG.no_add)}
+                        onClick={linkWarpFunction}
+                        onUnlink={unlinkWarpFunction}
+                        execButtonTitle={"Link"}
+                        unexecButtonTitle={"Unlink"}
+                        title={"Songs & Spawns"}
+                     />
+                    <FromToModule
+                        idToNameMapFrom={mapperState.unlinkedDoors}
+                        idToNameMapTo={mapperState.unlinkedDoors}
+                        onClick={linkDoorFunction}
+                        onUnlink={unlinkDoorFunction}
+                        execButtonTitle={"Link"}
+                        unexecButtonTitle={"Unlink"}
+                        title={"Doors"}
+                    />
+                </div>
+            </div>
+            <div className="grid-item grid-right">
+                <FromToModule
+                    idToNameMapFrom={selectableRoomMap}
+                    idToNameMapTo={selectableRoomMap}
+                    onClick={setFromTo}
+                    execButtonTitle={"Find"}
+                    title={"Find Paths"}
+                />
+                <PathDisplay paths={foundPaths} songWarps={mapperState.additionalBegin} />
+            </div>
+        </div>
+    </>);
 }

@@ -75,14 +75,12 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element
 		}
 	})();
 
-	return <div className="pathdisplay-container"> 
+	return <div className="path-display-container">
 		<label>
 			{"Max results:"}
-			<textarea rows={1} cols={2}
-			          defaultValue={maxPaths}
-				  onChange={e => trySetMaxPaths(e.target.value)} />
+			<textarea id="max-results" rows={1} cols={3} defaultValue={maxPaths} onChange={e => trySetMaxPaths(e.target.value)} />
 		</label>
-		<div> {
+		<div className="path-display"> {
 			allPaths
 		} </div>
 	</div>;

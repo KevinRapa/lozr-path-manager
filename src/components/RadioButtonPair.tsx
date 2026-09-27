@@ -1,6 +1,8 @@
 import React from 'react';
 import {useState} from 'react';
 
+import './RadioButtonPair.css';
+
 interface RadioButtonPairProps<T extends string> {
 	vals: [T, T],
 	onChange: (state: T) => void
@@ -17,7 +19,7 @@ export function RadioButtonPair<T extends string>(props: RadioButtonPairProps<T>
 	};
 
 	const RadioButton = (props: { val: T, name: string }) => {
-		return <label>
+		return <label className="radio-button">
 			{props.val}
 			<input type="radio" name={props.name} value={props.val}
 			       checked={state===props.val}
@@ -26,7 +28,7 @@ export function RadioButtonPair<T extends string>(props: RadioButtonPairProps<T>
 		</label>
 	}
 
-	return <div className={props.className}>
+	return <div className={"radio-button-pair " + props.className}>
 		{props.vals.map(v => <RadioButton name={props.vals.join("-")} val={v} />)}
 	</div>
 }

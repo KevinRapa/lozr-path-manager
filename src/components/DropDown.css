@@ -1,12 +1,14 @@
 .dropdown-container {
+	font-family: serif;
 }
 
 .dropdown-title {
-	font-size: 12pt;
+	font-size: large;
 }
 
 .dropdown {
 	margin: 5px;
 	border-radius: 1000px;
 	background-color: dimgray;
+	color: black;
 }

@@ -10,7 +10,8 @@ interface FromToModuleProps {
 	idToNameMapTo: Record<string, string>
 	onClick: (fromTo: [string, string]) => void
 	onUnlink?: (fromTo: [string, string]) => void
-	buttonTitle: string
+	execButtonTitle: string
+	unexecButtonTitle?: string
 	title: string
 }
 
@@ -80,17 +81,17 @@ export function FromToModule(props: FromToModuleProps): React.JSX.Element
 		          title={"To:"}
 		/>
 		<button className="from-to-button link-button title" onClick={onClick}>
-			{props.buttonTitle}
+			{props.execButtonTitle}
 		</button>
-		{ props.onUnlink ? <>
+		{ props.onUnlink && <>
 			<DropDown className="from-to-dropdown from-to-dropdown-unlink"
 				  idToNameMap={linkedPairs.current}
 				  onChange={onUnlinkSelect}
 				  title={"Now linked:"}
 			/>
 			<button className="from-to-button unlink-button title" onClick={onUnlink}>
-				{"UNLINK"}
+				{props.unexecButtonTitle}
 			</button>
-		  </> : <></> }
+		  </> }
 	</div>;
 }

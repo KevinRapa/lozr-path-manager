@@ -1,12 +1,13 @@
+.path-display-container {
+    margin: 10px;
+    padding: 10px;
+    border-style: groove;
+    font-family: serif;
+}
 
-.pathdisplay-container {
-	border: solid;
-	border-color: black;
-	border-width: 2px;
+#max-results {
 }
 
 .path-display {
-	border: solid;
-	border-color: black;
-	border-width: 1px;
+    margin: 10px 0;
 }

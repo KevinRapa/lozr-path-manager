@@ -1,21 +1,45 @@
 .grid-container {
-	display: grid;
-	column-gap: 10px;
-	grid-template: auto auto / 40% 60%;
-	width: 80%;
+	display: inline-grid;
 }
 
-#grid-top {
+.grid-top {
 	grid-row-start: 1;
 	grid-column: 1 / span 2;
 }
 
-#grid-left {
+.grid-left {
 	grid-row-start: 2;
 	grid-column-start: 1;
 }
 
-#grid-right {
+.grid-right {
 	grid-row-start: 2;
 	grid-column-start: 2;
+}
+
+.grid-item {
+    margin: 5px;
+    padding: 5px;
+    background: beige;
+}
+
+.save-load-btn {
+    font-size: x-large;
+    padding: 5px 20px;
+    margin: 0 5px;
+    background: dimgrey;
+    color: white;
+}
+
+#lozr-controls, #link-controls {
+    border-style: groove;
+}
+
+#page-title {
+    margin: 10px;
+}
+
+#page-container {
+    background-color: darkslategray;
+    padding: 10px;
 }
